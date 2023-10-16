@@ -45,3 +45,6 @@ Make sure you have the following installed:
      git push 
      ```
 
+
+https://github.com/karen-nke/get2gether-student-event-management/assets/103889430/b2568af1-f72c-49ff-9fe7-d94e69e60457
+
