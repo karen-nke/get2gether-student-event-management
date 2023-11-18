@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 require_once('Part/db_controller.php');
 require_once('Part/navbar.php');
@@ -74,7 +76,7 @@ require_once('Part/navbar.php');
             <img src="Image/Logo_Vertical.png" class ="image-banner" alt="Communication Badge">
     </div>
 
-        <form>
+    <form action="upload.php" method="post" enctype="multipart/form-data">
         <h2>Create Event</h2>
 
         <label for="eventTitle">Event Title</label>
