@@ -2,6 +2,7 @@
 
 require_once('Part/db_controller.php');
 require_once('Part/header.php');
+require_once('Part/navbar.php');
 
 ?>
 
@@ -227,8 +228,7 @@ require_once('Part/header.php');
             <div class ="text-container">
                 <p class="title"> Make your own Event</p>
                 <p class="desc">Description</p>
-                <button class ="btn">See More Event</button>
-
+                <a href="../Public/createevents.php"><button class ="btn">Create Events</button></a>
             </div>
 
     </div>
