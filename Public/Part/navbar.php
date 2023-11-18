@@ -14,8 +14,6 @@
     <div class="sidebar">
         <div class="top">
             <div class="logo">
-                <!-- <i class='bx bx-capsule'></i>
-                <span>TEST</span> -->
                 <img src="Image/minilogo.png" alt="Logo" class="logo-img">
             </div>
             <i class="bx bx-menu" id="btn"></i>
@@ -23,6 +21,13 @@
         
 
     <ul>
+    <li>
+            <a href="index.php">
+            <i class='bx bx-home' ></i>
+                <span class="nav-item">Home</span>
+            </a>
+            <span class="tooltip">Home</span>
+        </li>
         <li>
             <a href="#">
                 <i class='bx bx-user'></i>
