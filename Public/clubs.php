@@ -158,86 +158,11 @@ require_once('Part/header.php');
 
 </style>
 
-<body>
-    <div class="page-container">
-        <div class="image-container">
-            <img src="Image/Logo_Banner.png" class ="image-banner" alt="Communication Badge">
-        </div>
-
-        <div class ="section-container">
-            <p class ="title">Upcoming Event</p>
-
-                <div class="event-container">
-
-                    <div class="event-card">
-                        <img src="Image/Event1.png" alt="Event Image">
-                        <h2>Event 1</h2>
-                        <p>Date & Time: November 25, 2023</p>
-                        <p>Location: Venue 1</p>
-                    </div>
-
-                    <div class="event-card">
-                        <img src="Image/Event2.png" alt="Event Image">
-                        <h2>Event 2</h2>
-                        <p>Date & Time: December 5, 2023</p>
-                        <p>Location: Venue 2</p>
-                    </div>
-
-                    <div class="event-card">
-                        <img src="Image/Event3.png" alt="Event Image">
-                        <h2>Event 2</h2>
-                        <p>Date & Time: December 5, 2023</p>
-                        <p>Location: Venue 2</p>
-                    </div>
-
-                    <div class="event-card">
-                        <img src="Image/Event4.png" alt="Event Image">
-                        <h2>Event 2</h2>
-                        <p>Date & Time: December 5, 2023</p>
-                        <p>Location: Venue 2</p>
-                    </div>
-
-                    <div class="event-card">
-                        <img src="Image/Event5.png" alt="Event Image">
-                        <h2>Event 2</h2>
-                        <p>Date & Time: December 5, 2023</p>
-                        <p>Location: Venue 2</p>
-                    </div>
-
-                    <div class="event-card">
-                        <img src="Image/Event6.png" alt="Event Image">
-                        <h2>Event 2</h2>
-                        <p>Date & Time: December 5, 2023</p>
-                        <p>Location: Venue 2</p>
-                    </div>
-
-
-                </div>
-
-                <button class ="btn"> <a href= "events.php">See More Event</a></button>
-
-        </div>
-    </div>
-
-    <div class ="banner-container">
-            <div class="image-container">
-                <img src="Image/Make_Event.png" class ="image" alt="Event Image">
-                
-            </div>
-            <div class ="text-container">
-                <p class="title"> Make your own Event</p>
-                <p class="desc">Description</p>
-                <button class ="btn">See More Event</button>
-
-            </div>
-
-    </div>
-
-        
+<body>     
     <div class="page-container">
 
         <div class ="section-container">
-            <p class ="title">Trending Club</p>
+            <p class ="title">All Clubs & Societies</p>
 
                 <div class="event-container">
 
@@ -265,7 +190,7 @@ require_once('Part/header.php');
 
                 </div>
 
-                <button class ="btn"><a href="clubs.php">See More Club</a></button>
+                <button class ="btn">See More Club</button>
 
         </div>
 
