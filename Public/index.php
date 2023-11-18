@@ -1,7 +1,6 @@
 <?php
 
 require_once('Part/db_controller.php');
-require_once('Part/header.php');
 require_once('Part/navbar.php');
 
 ?>
@@ -138,14 +137,14 @@ require_once('Part/navbar.php');
     .banner-container .text-container .title{
         color: #F8F8FA;
         font-size: 36px;
-        font-family: Open Sans;
+        font-family: 'Open Sans', sans-serif;
         font-weight: 700;
     }
 
     .banner-container .text-container .desc{
         color: #F8F8FA;
         font-size: 18px;
-        font-family: Open Sans;
+        font-family: 'Open Sans', sans-serif;
         font-weight: 400;
     }
 
@@ -153,7 +152,30 @@ require_once('Part/navbar.php');
             text-decoration: none; 
             color:#fff;
             
-        }
+    }
+
+    .event-card .title{
+        color:#1D294F;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 24px;
+        font-weight: 400;
+        padding-top:15px;
+    }
+
+    .event-card .date{
+        color: #1D86C5;
+        font-size: 16px;
+        font-weight: 400;
+        font-family: 'Open Sans', sans-serif;
+
+    }
+
+    .event-card .location{
+        color: #7E7E7E;
+        font-size: 16px;
+        font-weight: 400;
+        font-family: 'Open Sans', sans-serif;
+    }
 
 
 
@@ -172,44 +194,44 @@ require_once('Part/navbar.php');
 
                     <div class="event-card">
                         <img src="Image/Event1.png" alt="Event Image">
-                        <h2>Event 1</h2>
-                        <p>Date & Time: November 25, 2023</p>
-                        <p>Location: Venue 1</p>
+                        <h2 class= "title">Event 1</h2>
+                        <p class ="date">Date & Time: November 25, 2023</p>
+                        <p class ="location">Location: Venue 1</p>
                     </div>
 
                     <div class="event-card">
                         <img src="Image/Event2.png" alt="Event Image">
-                        <h2>Event 2</h2>
-                        <p>Date & Time: December 5, 2023</p>
-                        <p>Location: Venue 2</p>
+                        <h2 class= "title">Event 1</h2>
+                        <p class ="date">Date & Time: December 5, 2023</p>
+                        <p class ="location">Location: Venue 2</p>
                     </div>
 
                     <div class="event-card">
                         <img src="Image/Event3.png" alt="Event Image">
-                        <h2>Event 2</h2>
-                        <p>Date & Time: December 5, 2023</p>
-                        <p>Location: Venue 2</p>
+                        <h2 class= "title">Event 1</h2>
+                        <p class ="date">Date & Time: December 5, 2023</p>
+                        <p class ="location">Location: Venue 2</p>
                     </div>
 
                     <div class="event-card">
                         <img src="Image/Event4.png" alt="Event Image">
-                        <h2>Event 2</h2>
-                        <p>Date & Time: December 5, 2023</p>
-                        <p>Location: Venue 2</p>
+                        <h2 class= "title">Event 1</h2>
+                        <p class ="date">Date & Time: December 5, 2023</p>
+                        <p class ="location">Location: Venue 2</p>
                     </div>
 
                     <div class="event-card">
                         <img src="Image/Event5.png" alt="Event Image">
-                        <h2>Event 2</h2>
-                        <p>Date & Time: December 5, 2023</p>
-                        <p>Location: Venue 2</p>
+                        <h2 class= "title">Event 1</h2>
+                        <p class ="date">Date & Time: December 5, 2023</p>
+                        <p class ="location">Location: Venue 2</p>
                     </div>
 
                     <div class="event-card">
                         <img src="Image/Event6.png" alt="Event Image">
-                        <h2>Event 2</h2>
-                        <p>Date & Time: December 5, 2023</p>
-                        <p>Location: Venue 2</p>
+                        <h2 class= "title">Event 1</h2>
+                        <p class ="date">Date & Time: December 5, 2023</p>
+                        <p class ="location">Location: Venue 2</p>
                     </div>
 
 
@@ -243,7 +265,7 @@ require_once('Part/navbar.php');
 
                     <div class="event-card">
                         <img src="Image/Event1.png" alt="Event Image">
-                        <h2>Sunway Tech Club</h2>
+                        <h2 class ="title">Sunway Tech Club</h2>
                         <button class ="btn">View</button>
                         
                         
@@ -251,14 +273,14 @@ require_once('Part/navbar.php');
 
                     <div class="event-card">
                         <img src="Image/Event2.png" alt="Event Image">
-                        <h2>Sunway CISA Club</h2>
+                        <h2 class ="title">Sunway CISA Club</h2>
                         <button class ="btn">View</button>
                         
                     </div>
 
                     <div class="event-card">
                         <img src="Image/Event3.png" alt="Event Image">
-                        <h2>Sunway Business Investment Society</h2>
+                        <h2 class ="title">Sunway Business Investment Society</h2>
                         <button class ="btn">View</button>
                         
                     </div>
