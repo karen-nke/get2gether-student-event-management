@@ -8,18 +8,9 @@ if (session_status() == PHP_SESSION_NONE) {
     <div class="menu-item">
         <div class="menu">
             <a href="index.php">Home</a>
-            <a href="event.php">Events</a>
-            <div class="dropdown">
-                <button class="dropbtn">Module
-                    <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <a href="soft_skills.php?skill=leadership">Leadership</a>
-                    <a href="soft_skills.php?skill=communication">Communication</a>
-                    <a href="soft_skills.php?skill=teamwork">Teamwork</a>
-                </div>
-            </div>
-            <a href="leaderboard.php">Leaderboard</a>
+            <a href="events.php">Events</a>
+            <a href="clubs.php"> Clubs</a>
+            
         </div>
 
 <?php
