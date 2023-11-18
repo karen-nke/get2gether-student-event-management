@@ -107,53 +107,6 @@ require_once('Part/header.php');
 
     }
 
-    .banner-container{
-        background-color:#1D294F;
-        width:100%;
-        max-width:100%; 
-        height: auto;
-        display: flex;
-        padding: 50px
-    }
-
-    .banner-container .image-container{
-        width: 50%;
-        text-align: center;
-
-    }
-
-    .banner-container .image-container .image{
-        max-width: 100%;
-        height: auto;
-    }
-
-    .banner-container .text-container{
-        width: 50%;
-        padding-top: 20px;
-
-
-    }
-
-    .banner-container .text-container .title{
-        color: #F8F8FA;
-        font-size: 36px;
-        font-family: Open Sans;
-        font-weight: 700;
-    }
-
-    .banner-container .text-container .desc{
-        color: #F8F8FA;
-        font-size: 18px;
-        font-family: Open Sans;
-        font-weight: 400;
-    }
-
-    .btn a {
-            text-decoration: none; 
-            color:#fff;
-            
-        }
-
 
 
 </style>
@@ -214,66 +167,9 @@ require_once('Part/header.php');
 
                 </div>
 
-                <button class ="btn"> <a href= "events.php">See More Event</a></button>
-
         </div>
     </div>
 
-    <div class ="banner-container">
-            <div class="image-container">
-                <img src="Image/Make_Event.png" class ="image" alt="Event Image">
-                
-            </div>
-            <div class ="text-container">
-                <p class="title"> Make your own Event</p>
-                <p class="desc">Description</p>
-                <button class ="btn">See More Event</button>
-
-            </div>
-
-    </div>
-
-        
-    <div class="page-container">
-
-        <div class ="section-container">
-            <p class ="title">Trending Club</p>
-
-                <div class="event-container">
-
-                    <div class="event-card">
-                        <img src="Image/Event1.png" alt="Event Image">
-                        <h2>Sunway Tech Club</h2>
-                        <button class ="btn">View</button>
-                        
-                        
-                    </div>
-
-                    <div class="event-card">
-                        <img src="Image/Event2.png" alt="Event Image">
-                        <h2>Sunway CISA Club</h2>
-                        <button class ="btn">View</button>
-                        
-                    </div>
-
-                    <div class="event-card">
-                        <img src="Image/Event3.png" alt="Event Image">
-                        <h2>Sunway Business Investment Society</h2>
-                        <button class ="btn">View</button>
-                        
-                    </div>
-
-                </div>
-
-                <button class ="btn">See More Club</button>
-
-        </div>
-
-    
-      
-    </div>
-
-  
 
     
        
