@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,7 +70,7 @@
             border-radius: 4px;
             display: inline-block;
             vertical-align: top;
-            padding-right: 30px; /* space for the eye icon */
+            padding-right: 30px; 
         }
 
         .password-toggle {
@@ -97,7 +99,6 @@
         <form action="signup_process.php" method="post">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
             </div>
             <div class="form-group">
                 <label for="email">Imail Address</label>
