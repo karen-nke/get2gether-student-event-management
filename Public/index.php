@@ -251,7 +251,7 @@ require_once('Part/navbar.php');
             <div class ="text-container">
                 <p class="title"> Make your own Event</p>
                 <p class="desc">Description</p>
-                <a href="../Public/createevents.php"><button class ="btn">Create Events</button></a>
+                <a href="../Public/create_events.php"><button class ="btn">Create Events</button></a>
             </div>
 
     </div>
