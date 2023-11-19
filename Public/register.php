@@ -1,4 +1,86 @@
+<?php 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
+echo "Debugging: PHP code reached.";
+
+include 'Part/db_controller.php';
+session_start();
+
+if (isset($_POST['submit'])) {
+    $username = $_POST['username'];
+    $email = trim($_POST['email']);
+    $password = md5($_POST['password']);
+    $confirmpassword = md5($_POST['confirmPassword']);
+
+    echo "Debugging: Form submitted.";
+
+    if ($password == $confirmpassword) {
+        $sql = "SELECT * FROM users WHERE email='" . $email . "'";
+        $sql2 = "SELECT * FROM users WHERE username='" . $username . "'";
+        $result = mysqli_query($conn, $sql);
+        $result2 = mysqli_query($conn, $sql2);
+
+        echo "Debugging: SQL queries executed.";
+
+        if (mysqli_num_rows($result) > 0) {
+            echo "<script>alert('Email Already Exists.')</script>";
+        } else if (mysqli_num_rows($result2) > 0) {
+            echo "<script>alert('Username Already Exists.')</script>";
+        } else {
+            $sql = "INSERT INTO users (username, email, password) VALUES ('$username', '$email', '$password')";
+            $result = mysqli_query($conn, $sql);
+
+            echo "Debugging: User inserted.";
+
+            if ($result) {
+                echo "<script>alert('Successfully Registered'); window.location.href = 'index.php';</script>";
+            } else {
+                echo "<script>alert('Something went wrong.')</script>";
+            }
+        }
+    } else {
+        echo "<script>alert('Password Not Matched.')</script>";
+    }
+}
+
+?>
+
+<script>
+    function validate(form){
+        fail = validateUsername(form.username.value)
+        fail += validateEmail(form.email.value)
+        fail += validatePassword(form.password.value)
+
+
+        if(fail=="") return true //if empty string, return true = pass validation
+        else {alert(fail); return false}
+
+       
+    }
+
+    function validateUsername(field){
+        if(field == "") return "No Username was entered.\n"
+        else if (field.length <5 || field.length >10) return "Username must be at least 5 characters and maximum 10 character.\n"
+        else if (/[^a-zA-Z0-9_-]/.test(field)) return "Only Alphabet & Numbers are allowed in the username.\n"
+        return ""
+
+    }
+
+    function validatePassword(field){
+        if(field=="") return "No Password Entered.\\n"
+        else if (field.length < 8) return "Password must be at least 8 characters.\n"
+        else if (!/[a-z]/.test(field) || !/[A-Z]/.test(field) || !/[0-9]/.test(field)) return "Password must require at least one uppercase, one lowercase and one number\n." 
+        return ""
+    }
+
+    function validateEmail(field){
+        if (field=="") return "No Email Entered.\n"
+        else if (!((field.indexOf(".")>0) && (field.indexOf("@")>0)) || /[^a-zA-Z0-9.@_-]/.test(field)) return "The Email Address is invalid.\n"
+        return""
+    }
+
+</script>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -96,9 +178,11 @@
     </div>
     <div class="signup-form">
         <h2>Sign Up</h2>
-        <form action="signup_process.php" method="post">
+
+        <form action="register.php" method="post" onSubmit="return validate(this)">
             <div class="form-group">
                 <label for="username">Username</label>
+                <input type="text" id= "username" name="username" required>
             </div>
             <div class="form-group">
                 <label for="email">Imail Address</label>

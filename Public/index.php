@@ -1,5 +1,6 @@
 <?php
 
+
 require_once('Part/db_controller.php');
 require_once('Part/navbar.php');
 
