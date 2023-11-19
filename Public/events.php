@@ -1,11 +1,3 @@
-<?php
-
-require_once('Part/db_controller.php');
-require_once('Part/navbar.php');
-
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -122,47 +114,34 @@ require_once('Part/navbar.php');
 
                 <div class="event-container">
 
-                    <div class="event-card">
-                        <img src="Image/Event1.png" alt="Event Image">
-                        <h2>Event 1</h2>
-                        <p>Date & Time: November 25, 2023</p>
-                        <p>Location: Venue 1</p>
-                    </div>
+                <?php
+                // Include PHP code here to fetch events from the database
+                error_reporting(E_ALL);
+                ini_set('display_errors', 1);
 
-                    <div class="event-card">
-                        <img src="Image/Event2.png" alt="Event Image">
-                        <h2>Event 2</h2>
-                        <p>Date & Time: December 5, 2023</p>
-                        <p>Location: Venue 2</p>
-                    </div>
+                require_once('Part/db_controller.php');
+                require_once('Part/navbar.php');
 
-                    <div class="event-card">
-                        <img src="Image/Event3.png" alt="Event Image">
-                        <h2>Event 2</h2>
-                        <p>Date & Time: December 5, 2023</p>
-                        <p>Location: Venue 2</p>
-                    </div>
+                $sql = "SELECT * FROM events";
+                $result = $conn->query($sql);
 
-                    <div class="event-card">
-                        <img src="Image/Event4.png" alt="Event Image">
-                        <h2>Event 2</h2>
-                        <p>Date & Time: December 5, 2023</p>
-                        <p>Location: Venue 2</p>
-                    </div>
+                if ($result->num_rows > 0) {
+                    // Output data of each row
+                    while ($row = $result->fetch_assoc()) {
+                        echo '<div class="event-card">';
+                        echo '<img src="' . htmlspecialchars($row["event_image_path"]) . '" alt="Event Image">';
+                        echo '<h2>' . $row["event_title"] . '</h2>';
+                        echo '<p>Date & Time: ' . $row["start_date"] . '</p>';
+                        echo '<p>Location: ' . $row["event_venue"] . '</p>';
+                        echo '</div>';
+                    }
+                } else {
+                    echo "0 results";
+                }
 
-                    <div class="event-card">
-                        <img src="Image/Event5.png" alt="Event Image">
-                        <h2>Event 2</h2>
-                        <p>Date & Time: December 5, 2023</p>
-                        <p>Location: Venue 2</p>
-                    </div>
-
-                    <div class="event-card">
-                        <img src="Image/Event6.png" alt="Event Image">
-                        <h2>Event 2</h2>
-                        <p>Date & Time: December 5, 2023</p>
-                        <p>Location: Venue 2</p>
-                    </div>
+                // Close the database connection
+                $conn->close();
+                ?>
 
 
                 </div>

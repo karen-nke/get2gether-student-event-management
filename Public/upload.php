@@ -7,7 +7,7 @@ require_once('Part/navbar.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Handle file upload
-    $uploadDir = '/Applications/XAMPP/xamppfiles/htdocs/Untitled/Public/uploads/';
+    $uploadDir = 'uploads/';
     $uploadFile = $uploadDir . basename($_FILES['eventImage']['name']);
 
     if (move_uploaded_file($_FILES['eventImage']['tmp_name'], $uploadFile)) {
