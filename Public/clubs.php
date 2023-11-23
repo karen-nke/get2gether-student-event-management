@@ -181,7 +181,7 @@ require_once('Part/navbar.php');
                         echo '<div class="event-card">';
                         echo '<img src="' . htmlspecialchars($row["profile_image"]) . '" alt="Club Image">';
                         echo '<h2>' . $row["club_name"] . '</h2>';
-                        echo '<button class="btn"><a href="club_details.php?id=' . $row["id"] . '">View</a></button>';
+                        echo '<button class="btn"><a href="club_single.php?id=' . $row["id"] . '">View</a></button>';
                         echo '</div>';
                     }
                 } else {

@@ -1,9 +1,13 @@
 
 -- Dummy Clubs
 INSERT INTO `clubs` (`club_name`, `description`, `subscriber_count`, `profile_image`, `contact_email`, `instagram_link`, `facebook_link`) VALUES
-('Coding Club', 'Explore the world of coding and programming!', 120, 'coding_club.jpg', 'coding@example.com', 'https://instagram.com/codingclub', 'https://facebook.com/codingclub'),
-('Photography Society', 'Capture the beauty around you with us!', 80, 'photography_society.jpg', 'photo@example.com', 'https://instagram.com/photography_society', 'https://facebook.com/photographysociety'),
-('Sports Enthusiasts', 'Stay active, stay healthy. Join us for sports!', 150, 'sports_enthusiasts.jpg', 'sports@example.com', 'https://instagram.com/sportsenthusiasts', 'https://facebook.com/sportsenthusiasts');
+('Coding Club', 'Explore the world of coding and programming!', 120, 'Image/Logo_Placeholder.png', 'coding@example.com', 'https://instagram.com/codingclub', 'https://facebook.com/codingclub'),
+('Photography Society', 'Capture the beauty around you with us!', 80, 'Image/Logo_Placeholder.png', 'photo@example.com', 'https://instagram.com/photography_society', 'https://facebook.com/photographysociety'),
+('Sports Enthusiasts', 'Stay active, stay healthy. Join us for sports!', 150, 'Image/Logo_Placeholder.png', 'sports@example.com', 'https://instagram.com/sportsenthusiasts', 'https://facebook.com/sportsenthusiasts'),
+('Art Enthusiasts', 'A community passionate about various forms of art, including painting, sculpture, and digital art.', 150, 'Image/Logo_Placeholder.png', 'art@example.com', 'instagram.com/art_enthusiasts', 'facebook.com/ArtEnthusiasts'),
+('Fitness Freaks', 'Join us for fitness and well-being. We organize regular workout sessions, yoga classes, and health-related workshops.', 200, 'Image/Logo_Placeholder.png', 'fitness@example.com', 'instagram.com/fitness_freaks', 'facebook.com/FitnessFreaks'),
+('Tech Innovators', 'Dive into the world of technology and innovation. We explore coding, robotics, and the latest tech trends.', 180, 'Image/Logo_Placeholder.png', 'tech@example.com', 'instagram.com/tech_innovators', 'facebook.com/TechInnovators');
+
 
 -- Dummy Events 
 INSERT INTO events (event_title, event_venue, start_time, end_time, start_date, end_date, event_image_path, event_description, club_id)
