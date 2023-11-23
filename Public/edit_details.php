@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         window.location.href = 'club_single.php?id=" . urlencode($club_id) . "';
         
         </script>";
-        // You can redirect the user to the club_single.php page or perform any other actions here
+       
     } else {
         echo "<script>alert('Error updating club details');</script>";
     
@@ -98,10 +98,6 @@ form {
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-
-<style>
-    /* Add your styles for the edit page here */
-</style>
 
 <body>
 
