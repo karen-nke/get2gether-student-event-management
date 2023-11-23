@@ -99,8 +99,8 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                 <div class="single-container">
                     <h2 class="title"><?php echo $row['club_name']; ?></h2>
                     <h2 class="subscribe">Subscriber Count <span class="count"><?php echo $row['subscriber_count']; ?></span></h2>
-                    <button class="btn"><a href="#">Subscribe</a></button>
-                    <button class="btn"><a href="edit_details.php?id=<?php echo $club_id; ?>">Edit Details</a></button>
+                    <a href="#"><button class="btn">Subscribe</button></a>
+                    <a href="edit_details.php?id=<?php echo $club_id; ?>"><button class="btn">Edit Details</button></a>
 
                     <p class="field-name">Club Description</p>
                     <p class="desc"><?php echo $row['description']; ?></p>

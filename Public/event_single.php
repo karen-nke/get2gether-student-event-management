@@ -123,8 +123,8 @@ require_once('Part/navbar.php');
         ?>
 
 
-        <button class="btn"><a href="club_single.php?id=<?php echo $row['club_id']; ?>">View Club Details</a></button>
-        <button class="btn"><a href="#">Register</a></button>
+        <a href="club_single.php?id=<?php echo $row['club_id']; ?>"><button class="btn">View Club Details</button></a>
+        <a href="#"><button class="btn">Register</button></a>
 
         <?php
 
