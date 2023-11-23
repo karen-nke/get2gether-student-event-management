@@ -157,4 +157,73 @@
     width:50%
 }
 
+.btn {
+  padding: 15px 25px 15px 25px;
+  border-radius: 10px;
+  width: 500px;
+  margin: auto;
+  margin-top: 25px;
+  background-color: #1D86C5;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #fff;
+  border: 2px solid #1D86C5;
+}
+
+
+.btn a {
+  text-decoration: none; 
+  color:#fff;
+  
+}
+
+
+/*Home Page Center Banner*/
+.banner-container{
+  background-color:#1D294F;
+  width:100%;
+  max-width:100%; 
+  height: auto;
+  display: flex;
+  padding: 50px
+}
+
+.banner-container .image-container{
+  width: 50%;
+  text-align: center;
+
+}
+
+.banner-container .image-container .image{
+  max-width: 100%;
+  height: auto;
+}
+
+.banner-container .text-container{
+  width: 50%;
+  padding-top: 20px;
+
+
+}
+
+.banner-container .text-container .title{
+  color: #F8F8FA;
+  font-size: 36px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+}
+
+.banner-container .text-container .desc{
+  color: #F8F8FA;
+  font-size: 18px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+}
+
+
+
+
+
+
 
