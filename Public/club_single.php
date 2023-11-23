@@ -77,6 +77,8 @@ require_once('Part/navbar.php');
             <div class= "single-event-container">
                 <h2 class="title">Coding Club</h2>
                 <h2 class ="subscribe"> Subscriber Count <span class ="count">1112</span> </h2>
+                <button class ="btn"> <a href= "#">Subscribe</a></button>
+
                 <p class ="field-name">Club Description</p>
                 <p class ="desc"> Explore the world of coding and programming! </p>
 
@@ -88,6 +90,10 @@ require_once('Part/navbar.php');
                 <a href="#"><p class ="desc"> Faceboook</p></a>
 
             </div>
+
+        
+
+        </div>
 </div>
 
         
