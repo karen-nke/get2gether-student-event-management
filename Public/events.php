@@ -142,7 +142,10 @@
                         echo '<p>Date & Time: ' . $row["start_date"] . '</p>';
                         echo '<p>Location: ' . $row["event_venue"] . '</p>';
                         echo '<p class="club-label">Club: ' . $row["club_name"] . '</p>';
-                        echo '</div>';
+                        
+                        // Add a link or button to view details and select this event
+                    echo '<a href="event_single.php?id=' . $row["id"] . '">View Details</a>';
+                    echo '</div>';
                     }
                 } else {
                     echo "0 results";
