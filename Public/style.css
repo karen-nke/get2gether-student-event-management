@@ -5,9 +5,18 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, SansSerif;
   }
 
+  .page-container{
+    max-width: 1300px;
+    margin:auto;
+    padding:25px
+}
+
+
   .logo-img{
     width: 200px;
   }
+
+  /*-----Navigation Bar-----*/
 
   .sidebar{
     position: fixed;
@@ -133,3 +142,19 @@
   .sidebar.active ul li .tooltip{
     display: none;
   }
+
+  /*-----HomePage-----*/
+
+  .image-container{
+    display:flex;
+    justify-content: center;
+}
+
+.image-banner{
+    
+    margin-left:auto;
+    margin-right:auto;
+    width:50%
+}
+
+

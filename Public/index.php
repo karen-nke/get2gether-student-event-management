@@ -20,23 +20,7 @@ require_once('Part/navbar.php');
 </head>
 
 <style>
-    .page-container{
-        max-width: 1300px;
-        margin:auto;
-        padding:25px
-    }
 
-    .image-container{
-        display:flex;
-        justify-content: center;
-    }
-
-    .image-banner{
-        
-        margin-left:auto;
-        margin-right:auto;
-        width:50%
-    }
 
     .event-container {
         display:flex;

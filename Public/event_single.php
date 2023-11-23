@@ -41,7 +41,7 @@ require_once('Part/navbar.php');
 
 
 
-.event-container .title{
+.single-event-container .title{
     color: black;
     font-size: 64px;
     font-weight: 700;
@@ -49,14 +49,14 @@ require_once('Part/navbar.php');
     margin-bottom: 25px;
 }
 
-.event-container .field-name{
+.single-event-container .field-name{
     color: black;
     font-size: 24px;
     font-weight: 700;
     margin-top: 50px;
 }
 
-.event-container .desc{
+.single-event-container .desc{
 
     color: #7E7E7E;
     font-size: 16px;
@@ -91,61 +91,64 @@ require_once('Part/navbar.php');
 </style>
 
 <body>
-<?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
-require_once('Part/db_controller.php');
+    <div class ="page-container">
+        <?php
+        error_reporting(E_ALL);
+        ini_set('display_errors', 1);
 
-if (isset($_GET['id']) && !empty($_GET['id'])) {
-    $event_id = $_GET['id'];
-    
-    // Fetch event details based on the id
-    $sql = "SELECT events.*, clubs.club_name, clubs.contact_email FROM events
-            JOIN clubs ON events.club_id = clubs.id
-            WHERE events.id = $event_id";
+        require_once('Part/db_controller.php');
 
-    $result = $conn->query($sql);
+        if (isset($_GET['id']) && !empty($_GET['id'])) {
+            $event_id = $_GET['id'];
+            
+            // Fetch event details based on the id
+            $sql = "SELECT events.*, clubs.club_name, clubs.contact_email FROM events
+                    JOIN clubs ON events.club_id = clubs.id
+                    WHERE events.id = $event_id";
 
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        // Display event details on this page
-        echo '<div class="page-container">';
-        echo '<div class="image-container">';
-        echo '<img src="' . htmlspecialchars($row["event_image_path"]) . '" class="image-banner" alt="Event Banner">';
-        echo '</div>';
+            $result = $conn->query($sql);
 
-        echo '<div class="event-container">';
-        echo '<h2 class="title">' . $row["event_title"] . '</h2>';
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                // Display event details on this page
+        
+                echo '<div class="image-container">';
+                echo '<img src="' . htmlspecialchars($row["event_image_path"]) . '" class="image-banner" alt="Event Banner">';
+                echo '</div>';
 
-        echo '<p class="field-name">Description</p>';
-        echo '<p class="desc">' . $row["event_description"] . '</p>';
+                echo '<div class="single-event-container">';
+                echo '<h2 class="title">' . $row["event_title"] . '</h2>';
 
-        echo '<p class="field-name">Event Date & Time</p>';
-        echo '<p class="desc">Event Date: ' . $row["start_date"] . '</p>';
-        echo '<p class="desc">Event Time: ' . $row["start_time"] . ' - ' . $row["end_time"] . '</p>';
+                echo '<p class="field-name">Description</p>';
+                echo '<p class="desc">' . $row["event_description"] . '</p>';
 
-        echo '<p class="field-name">Event Venue</p>';
-        echo '<p class="desc">' . $row["event_venue"] . '</p>';
+                echo '<p class="field-name">Event Date & Time</p>';
+                echo '<p class="desc">Event Date: ' . $row["start_date"] . '</p>';
+                echo '<p class="desc">Event Time: ' . $row["start_time"] . ' - ' . $row["end_time"] . '</p>';
 
-        echo '<p class="field-name">Organizer</p>';
-        echo '<p class="desc">Club Name: ' . $row["club_name"] . '</p>';
-        echo '<p class="desc">Contact Email Address: ' . $row["contact_email"] . '</p>';
+                echo '<p class="field-name">Event Venue</p>';
+                echo '<p class="desc">' . $row["event_venue"] . '</p>';
 
-        echo '<button class="btn"><a href="#">View Club Details</a></button>';
-        echo '<button class="btn"><a href="#">Register</a></button>';
-        echo '</div>'; // Close event-container div
+                echo '<p class="field-name">Organizer</p>';
+                echo '<p class="desc">Club Name: ' . $row["club_name"] . '</p>';
+                echo '<p class="desc">Contact Email Address: ' . $row["contact_email"] . '</p>';
 
-        echo '</div>'; // Close page-container div
-    } else {
-        echo "Event not found";
-    }
-} else {
-    echo "No event selected";
-}
+                echo '<button class="btn"><a href="#">View Club Details</a></button>';
+                echo '<button class="btn"><a href="#">Register</a></button>';
+                echo '</div>'; // Close event-container div
 
-$conn->close();
-?>
+                
+            } else {
+                echo "Event not found";
+            }
+        } else {
+            echo "No event selected";
+        }
+
+        require_once('Part/event_section.php');
+        ?>
+    </div>
 
     <!-- <div class="page-container">
         <div class="image-container">
