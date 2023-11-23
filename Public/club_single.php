@@ -112,6 +112,48 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                     <a href="<?php echo $row['instagram_link']; ?>"><p class="desc">Instagram</p></a>
                     <a href="<?php echo $row['facebook_link']; ?>"><p class="desc">Facebook</p></a>
                 </div>
+
+                <div class="section-container">
+                    <p class="title">Clubs Events</p>
+
+                    <div class="event-container">
+
+                        <?php
+                        error_reporting(E_ALL);
+                        ini_set('display_errors', 1);
+
+                        
+                        $club_id = $row['id']; 
+                        $sql = "SELECT events.*, clubs.club_name FROM events
+                                JOIN clubs ON events.club_id = clubs.id
+                                WHERE events.club_id = $club_id AND events.start_date >= CURDATE()
+                                ORDER BY events.start_date LIMIT 3";
+
+                        $result = $conn->query($sql);
+
+                        if ($result->num_rows > 0) {
+                            echo '<div class="event-container">';
+                            // Output data of each row
+                            while ($row = $result->fetch_assoc()) {
+                                echo '<a href="event_single.php?id=' . $row["id"] . '">';
+                                echo '<div class="event-card">';
+                                echo '<img src="' . htmlspecialchars($row["event_image_path"]) . '" alt="Event Image">';
+                                echo '<h2 class="title">' . $row["event_title"] . '</h2>';
+                                echo '<p class="date">Date & Time: ' . $row["start_date"] . '</p>';
+                                echo '<p class="location">Location: ' . $row["event_venue"] . '</p>';
+                                echo '<p class="location">Club: ' . $row["club_name"] . '</p>';
+                                echo '</div>';
+                                echo '</a>';
+                            }
+                            echo '</div>';
+                        } else {
+                            echo "No upcoming events for this club.";
+                        }
+                        ?>
+
+                    </div>
+
+                </div>
     </div>
 
 </body>
