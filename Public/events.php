@@ -97,6 +97,14 @@
         color: #fff;
         border: 2px solid #1D86C5;;
 
+
+    }
+    .club-label {
+        color: #1D86C5;
+        font-size: 18px;
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 600;
+        margin-bottom: 10px;
     }
 
 
@@ -106,55 +114,48 @@
 <body>
     <div class="page-container">
         <div class="image-container">
-            <img src="Image/Logo_Banner.png" class ="image-banner" alt="Communication Badge">
+            <img src="Image/Logo_Banner.png" class="image-banner" alt="Communication Badge">
         </div>
 
-        <div class ="section-container">
-            <p class ="title">Upcoming Event</p>
+        <div class="section-container">
+            <p class="title">Upcoming Event</p>
 
-                <div class="event-container">
+            <div class="event-container">
 
                 <?php
-                // Include PHP code here to fetch events from the database
                 error_reporting(E_ALL);
                 ini_set('display_errors', 1);
 
                 require_once('Part/db_controller.php');
                 require_once('Part/navbar.php');
 
-                $sql = "SELECT * FROM events";
+                $sql = "SELECT events.*, clubs.club_name FROM events
+                        JOIN clubs ON events.club_id = clubs.id";
+
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
-                    // Output data of each row
                     while ($row = $result->fetch_assoc()) {
                         echo '<div class="event-card">';
                         echo '<img src="' . htmlspecialchars($row["event_image_path"]) . '" alt="Event Image">';
                         echo '<h2>' . $row["event_title"] . '</h2>';
                         echo '<p>Date & Time: ' . $row["start_date"] . '</p>';
                         echo '<p>Location: ' . $row["event_venue"] . '</p>';
+                        echo '<p class="club-label">Club: ' . $row["club_name"] . '</p>';
                         echo '</div>';
                     }
                 } else {
                     echo "0 results";
                 }
 
-                // Close the database connection
                 $conn->close();
                 ?>
 
-
-                </div>
+            </div>
 
         </div>
     </div>
 
-
-    
-       
-               
-
-                        
 </body>
 
 </html>
