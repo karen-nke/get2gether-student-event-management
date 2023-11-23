@@ -8,52 +8,41 @@ require_once('Part/navbar.php');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Handle file upload
     $uploadDir = 'uploads/';
-    $uploadFile = $uploadDir . basename($_FILES['eventImage']['name']);
+    $eventTitle = $_POST['eventTitle'];
+    
+    // Create a new file name based on the event name
+    $newFileName = strtolower($eventTitle) . '.png';
+    $uploadFile = $uploadDir . $newFileName;
 
     if (move_uploaded_file($_FILES['eventImage']['tmp_name'], $uploadFile)) {
         // File uploaded successfully
         echo "File is valid and was successfully uploaded.";
 
         // Retrieve other form data
-        $eventTitle = $_POST['eventTitle'];
         $eventVenue = $_POST['eventVenue'];
         $startTime = $_POST['startTime'];
         $endTime = $_POST['endTime'];
         $startDate = $_POST['startDate'];
         $endDate = $_POST['endDate'];
         $clubId = $_POST['club'];
-        // $targetPath = $_POST['eventImage'];
         $eventDescription = $_POST['eventDescription'];
 
-        // // Sanitize data before inserting into the database (to prevent SQL injection)
-        // $eventTitle = mysqli_real_escape_string($connection, $eventTitle);
-        // $eventVenue = mysqli_real_escape_string($connection, $eventVenue);
-        // // Similarly, sanitize other input fields
-
         // Insert data into the database
-        $sql ="INSERT INTO events (club_id, event_title, event_venue, start_time, end_time, start_date, end_date, event_image_path, event_description)
-            VALUES ('$clubId', '$eventTitle', '$eventVenue', '$startTime', '$endTime', '$startDate', '$endDate', '$uploadFile', '$eventDescription')";
+        $sql = "INSERT INTO events (club_id, event_title, event_venue, start_time, end_time, start_date, end_date, event_image_path, event_description)
+                VALUES ('$clubId', '$eventTitle', '$eventVenue', '$startTime', '$endTime', '$startDate', '$endDate', '$uploadFile', '$eventDescription')";
 
-if ($conn->query($sql) === TRUE) {
-                echo "Event created successfully";
-            } else {
-                echo "Error: " . $sql . "<br>" . $conn->error;
-            }
+        if ($conn->query($sql) === TRUE) {
+            echo "Event created successfully";
         } else {
-            echo "Error uploading the file.";
+            echo "Error: " . $sql . "<br>" . $conn->error;
         }
-    
-        // Close the database connection
-        $conn->close();
+    } else {
+        echo "Error uploading the file.";
     }
 
-
-
-
-
-
-
-
+    // Close the database connection
+    $conn->close();
+}
 
 
 // if ($_SERVER["REQUEST_METHOD"] == "POST") {
