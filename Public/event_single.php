@@ -91,7 +91,63 @@ require_once('Part/navbar.php');
 </style>
 
 <body>
-    <div class="page-container">
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+require_once('Part/db_controller.php');
+
+if (isset($_GET['id']) && !empty($_GET['id'])) {
+    $event_id = $_GET['id'];
+    
+    // Fetch event details based on the id
+    $sql = "SELECT events.*, clubs.club_name, clubs.contact_email FROM events
+            JOIN clubs ON events.club_id = clubs.id
+            WHERE events.id = $event_id";
+
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        // Display event details on this page
+        echo '<div class="page-container">';
+        echo '<div class="image-container">';
+        echo '<img src="' . htmlspecialchars($row["event_image_path"]) . '" class="image-banner" alt="Event Banner">';
+        echo '</div>';
+
+        echo '<div class="event-container">';
+        echo '<h2 class="title">' . $row["event_title"] . '</h2>';
+
+        echo '<p class="field-name">Description</p>';
+        echo '<p class="desc">' . $row["event_description"] . '</p>';
+
+        echo '<p class="field-name">Event Date & Time</p>';
+        echo '<p class="desc">Event Date: ' . $row["start_date"] . '</p>';
+        echo '<p class="desc">Event Time: ' . $row["start_time"] . ' - ' . $row["end_time"] . '</p>';
+
+        echo '<p class="field-name">Event Venue</p>';
+        echo '<p class="desc">' . $row["event_venue"] . '</p>';
+
+        echo '<p class="field-name">Organizer</p>';
+        echo '<p class="desc">Club Name: ' . $row["club_name"] . '</p>';
+        echo '<p class="desc">Contact Email Address: ' . $row["contact_email"] . '</p>';
+
+        echo '<button class="btn"><a href="#">View Club Details</a></button>';
+        echo '<button class="btn"><a href="#">Register</a></button>';
+        echo '</div>'; // Close event-container div
+
+        echo '</div>'; // Close page-container div
+    } else {
+        echo "Event not found";
+    }
+} else {
+    echo "No event selected";
+}
+
+$conn->close();
+?>
+
+    <!-- <div class="page-container">
         <div class="image-container">
                 <img src="Image/Event1.png" class ="image-banner" alt="Communication Badge">
         </div>
@@ -126,7 +182,7 @@ require_once('Part/navbar.php');
            
     
       
-    </div>
+    </div> -->
 
 
         
