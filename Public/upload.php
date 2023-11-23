@@ -21,6 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $endTime = $_POST['endTime'];
         $startDate = $_POST['startDate'];
         $endDate = $_POST['endDate'];
+        $clubId = $_POST['club'];
         // $targetPath = $_POST['eventImage'];
         $eventDescription = $_POST['eventDescription'];
 
@@ -30,8 +31,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // // Similarly, sanitize other input fields
 
         // Insert data into the database
-        $sql ="INSERT INTO events (event_title, event_venue, start_time, end_time, start_date, end_date, event_image_path, event_description)
-                         VALUES ('$eventTitle', '$eventVenue', '$startTime', '$endTime', '$startDate', '$endDate', '$uploadFile', '$eventDescription')";
+        $sql ="INSERT INTO events (club_id, event_title, event_venue, start_time, end_time, start_date, end_date, event_image_path, event_description)
+            VALUES ('$clubId', '$eventTitle', '$eventVenue', '$startTime', '$endTime', '$startDate', '$endDate', '$uploadFile', '$eventDescription')";
 
 if ($conn->query($sql) === TRUE) {
                 echo "Event created successfully";

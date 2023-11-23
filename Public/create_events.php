@@ -5,6 +5,17 @@ ini_set('display_errors', 1);
 require_once('Part/db_controller.php');
 require_once('Part/navbar.php');
 
+// Retrieve clubs from the database
+$sql = "SELECT id, club_name FROM clubs";
+$result = mysqli_query($conn, $sql);
+
+// Check if clubs were retrieved successfully
+if ($result) {
+    $clubs = mysqli_fetch_all($result, MYSQLI_ASSOC);
+} else {
+    $clubs = []; // Set to empty array if there is an error
+}
+
 ?>
 
 
@@ -67,6 +78,10 @@ require_once('Part/navbar.php');
             cursor: pointer;
         }
 
+       select{
+            margin-bottom: 16px;
+        }
+
 </style>
 
 <body>
@@ -84,6 +99,13 @@ require_once('Part/navbar.php');
 
         <label for="eventVenue">Event Venue</label>
         <input type="text" id="eventVenue" name="eventVenue" required>
+
+        <label for="club">Select Club</label>
+        <select class="club-option" id="club" name="club" required>
+            <?php foreach ($clubs as $club): ?>
+                <option value="<?= $club['id'] ?>"><?= $club['club_name'] ?></option>
+            <?php endforeach; ?>
+        </select>
 
         <div style="display: flex; gap: 10px;">
             <div style="flex: 1;">

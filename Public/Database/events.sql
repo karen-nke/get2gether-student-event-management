@@ -27,6 +27,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `events`
 --
 
+
 CREATE TABLE `events` (
   `id` int(11) NOT NULL,
   `event_title` varchar(255) NOT NULL,
@@ -36,7 +37,8 @@ CREATE TABLE `events` (
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
   `event_image_path` varchar(255) DEFAULT NULL,
-  `event_description` text NOT NULL
+  `event_description` text NOT NULL,
+  `club_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
