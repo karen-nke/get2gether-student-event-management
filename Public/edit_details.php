@@ -120,7 +120,11 @@ form {
 
             <input type="submit" value="Update Details">
         </form>
+
+        <a href="club_single.php?id=<?php echo $club_id; ?>"><button class="btn">Back</button></a>
     </div>
+
+   
 
 </body>
 
