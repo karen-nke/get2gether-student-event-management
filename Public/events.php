@@ -107,6 +107,11 @@
         margin-bottom: 10px;
     }
 
+    a {
+    text-decoration: none;
+    
+    }
+
 
 
 </style>
@@ -136,16 +141,16 @@
 
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        echo '<div class="event-card">';
-                        echo '<img src="' . htmlspecialchars($row["event_image_path"]) . '" alt="Event Image">';
-                        echo '<h2>' . $row["event_title"] . '</h2>';
-                        echo '<p>Date & Time: ' . $row["start_date"] . '</p>';
-                        echo '<p>Location: ' . $row["event_venue"] . '</p>';
-                        echo '<p class="club-label">Club: ' . $row["club_name"] . '</p>';
-                        
-                        // Add a link or button to view details and select this event
-                    echo '<a href="event_single.php?id=' . $row["id"] . '">View Details</a>';
-                    echo '</div>';
+                        echo '<a href="event_single.php?id=' . $row["id"] . '">';
+                            echo '<div class="event-card">';
+                                echo '<img src="' . htmlspecialchars($row["event_image_path"]) . '" alt="Event Image">';
+                                echo '<h2>' . $row["event_title"] . '</h2>';
+                                echo '<p>Date & Time: ' . $row["start_date"] . '</p>';
+                                echo '<p>Location: ' . $row["event_venue"] . '</p>';
+                                echo '<p class="club-label">Club: ' . $row["club_name"] . '</p>';
+                            
+                            echo '</div>';
+                        echo '</a>';  
                     }
                 } else {
                     echo "0 results";

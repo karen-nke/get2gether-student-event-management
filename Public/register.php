@@ -2,7 +2,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-echo "Debugging: PHP code reached.";
+
 
 include 'Part/db_controller.php';
 session_start();
