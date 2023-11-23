@@ -1,6 +1,6 @@
 <?php
 
-require_once('Part/db_controller.php');g
+require_once('Part/db_controller.php');
 require_once('Part/navbar.php');
 
 ?>
@@ -166,31 +166,34 @@ require_once('Part/navbar.php');
 
                 <div class="event-container">
 
-                    <div class="event-card">
-                        <img src="Image/Event1.png" alt="Event Image">
-                        <h2>Sunway Tech Club</h2>
-                        <button class ="btn">View</button>
-                        
-                        
-                    </div>
+                <?php
+                error_reporting(E_ALL);
+                ini_set('display_errors', 1);
 
-                    <div class="event-card">
-                        <img src="Image/Event2.png" alt="Event Image">
-                        <h2>Sunway CISA Club</h2>
-                        <button class ="btn">View</button>
-                        
-                    </div>
+                require_once('Part/db_controller.php');
+                require_once('Part/navbar.php');
 
-                    <div class="event-card">
-                        <img src="Image/Event3.png" alt="Event Image">
-                        <h2>Sunway Business Investment Society</h2>
-                        <button class ="btn">View</button>
-                        
-                    </div>
+                $sql = "SELECT * FROM clubs";
+                $result = $conn->query($sql);
+
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo '<div class="event-card">';
+                        echo '<img src="' . htmlspecialchars($row["profile_image"]) . '" alt="Club Image">';
+                        echo '<h2>' . $row["club_name"] . '</h2>';
+                        echo '<button class="btn"><a href="club_details.php?id=' . $row["id"] . '">View</a></button>';
+                        echo '</div>';
+                    }
+                } else {
+                    echo "0 results";
+                }
+
+                $conn->close();
+                ?>
 
                 </div>
 
-                <button class ="btn">See More Club</button>
+               
 
         </div>
 
