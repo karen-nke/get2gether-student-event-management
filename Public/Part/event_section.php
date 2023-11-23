@@ -10,7 +10,7 @@
 
                         // Retrieve 3 random events from the database
                         $sql = "SELECT events.*, clubs.club_name FROM events
-                            JOIN clubs ON events.club_id = clubs.id ORDER BY RAND() LIMIT 6";
+                            JOIN clubs ON events.club_id = clubs.id ORDER BY RAND() LIMIT 3";
                     
                         $result = $conn->query($sql);
 

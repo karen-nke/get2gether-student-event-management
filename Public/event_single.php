@@ -134,8 +134,6 @@ require_once('Part/navbar.php');
                 echo '<p class="desc">Club Name: ' . $row["club_name"] . '</p>';
                 echo '<p class="desc">Contact Email Address: ' . $row["contact_email"] . '</p>';
 
-                echo '<button class="btn"><a href="#">View Club Details</a></button>';
-                echo '<button class="btn"><a href="#">Register</a></button>';
                 echo '</div>'; // Close event-container div
 
                 
@@ -145,8 +143,17 @@ require_once('Part/navbar.php');
         } else {
             echo "No event selected";
         }
+        ?>
+
+
+        <button class="btn"><a href="#">View Club Details</a></button>
+        <button class="btn"><a href="#">Register</a></button>
+
+        <?php
 
         require_once('Part/event_section.php');
+        require_once('Part/club_section.php');
+        
         ?>
     </div>
 
