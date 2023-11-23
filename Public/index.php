@@ -31,7 +31,7 @@ require_once('Part/navbar.php');
         justify-content: center;
     }
 
-    .image-banenr{
+    .image-banner{
         
         margin-left:auto;
         margin-right:auto;
