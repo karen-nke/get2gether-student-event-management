@@ -38,9 +38,6 @@ require_once('Part/navbar.php');
         width:50%
     }
 
-
-
-
 .single-event-container .title{
     color: black;
     font-size: 64px;
@@ -64,26 +61,6 @@ require_once('Part/navbar.php');
 
 }
 
-.btn{
-        padding: 15px 25px 15px 25px;
-        border-radius:10px;
-        width: 500px;
-        margin:auto;
-        margin-top:25px;
-        background-color:#1D86C5;
-        font-family: 'Open Sans', sans-serif;
-        font-size: 16px;
-        font-weight: 400;
-        color: #fff;
-        border: 2px solid #1D86C5;;
-
-    }
-
-    .btn a {
-            text-decoration: none; 
-            color:#fff;
-            
-    }
 
 
 
