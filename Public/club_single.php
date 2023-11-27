@@ -34,6 +34,21 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     echo "No club selected";
 }
 
+function fetchUserRole($user_id, $club_id) {
+    global $conn;
+
+    $sql = "SELECT role FROM memberships WHERE user_id = $user_id AND club_id = $club_id";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row['role'];
+    } else {
+        return ""; // Assuming an empty string for no role
+    }
+}
+
+$userRole = fetchUserRole($userId, $club_id);
 
 ?>
 
@@ -113,7 +128,13 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                         <input type="hidden" name="club_id" value="<?php echo $club_id; ?>">
                         <button type="submit" class="btn" name="join_club">Join Club</button>
                     </form>
-                    <a href="edit_details.php?id=<?php echo $club_id; ?>"><button class="btn">Edit Details</button></a>
+
+                    <?php if ($userRole === 'pic'): ?>
+                        <a href="edit_details.php?id=<?php echo $club_id; ?>">
+                            <button class="btn">Edit Details</button>
+                        </a>
+                    <?php endif; ?>
+
 
                     <p class="field-name">Club Description</p>
                     <p class="desc"><?php echo $row['description']; ?></p>
