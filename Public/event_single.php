@@ -132,7 +132,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
 
 
         <a href="club_single.php?id=<?php echo $row['club_id']; ?>"><button class="btn">View Club Details</button></a>
-        <a href="#"><button class="btn">Register</button></a>
+        <a href="register_event.php?id=<?php echo $event_id; ?>"><button class="btn">Register</button></a>
 
         <?php
 
