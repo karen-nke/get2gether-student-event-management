@@ -102,6 +102,29 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
 
                     <a href="edit_profile.php"><button class="btn">Edit Profile</button></a>
 
+                    <!-- Display user's joined clubs -->
+                    <div class="joined-clubs">
+                        <h2 class="field-name">Joined Clubs</h2>
+                        <?php
+                        $joinedClubsSql = "SELECT clubs.club_name
+                                        FROM memberships
+                                        JOIN clubs ON memberships.club_id = clubs.id
+                                        WHERE memberships.user_id = $userId";
+
+                        $joinedClubsResult = $conn->query($joinedClubsSql);
+
+                        if ($joinedClubsResult && $joinedClubsResult->num_rows > 0) {
+                            echo '<ul>';
+                            while ($clubRow = $joinedClubsResult->fetch_assoc()) {
+                                echo '<li>' . htmlspecialchars($clubRow['club_name']) . '</li>';
+                            }
+                            echo '</ul>';
+                        } else {
+                            echo '<p>No joined clubs yet.</p>';
+                        }
+                        ?>
+                    </div>
+
                 </div>
 
                
