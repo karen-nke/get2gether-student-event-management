@@ -62,13 +62,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form action="login.php" method="post">
             <div class="form-group">
                 <label for="email">Imail</label>
-                <input type="text" placeholder="Enter Imail Address" id="email" name="email" value="<?php echo $email; ?>" required>
+                <input type="text" placeholder="Enter Imail Address" id="email" name="email" required>
             </div>
 
             <div class="form-group">
                 <label for="password">Password</label>
                 <div style="position: relative;">
-                    <input type="password" placeholder="Enter Password" id="password" name="password"  value="<?php echo $_POST['password']; ?>" required>
+                    <input type="password" placeholder="Enter Password" id="password" name="password"  required>
                     <i class="fa fa-eye-slash password-toggle" onclick="togglePassword('password')"></i>
                 </div>
             </div>
