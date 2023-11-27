@@ -23,7 +23,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
 
 <head>
         <meta charset="UTF-8">
-        <title><?php echo $row['club_name']; ?></title>
+        <title>Profile</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="style.css">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -86,11 +86,11 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
             </div>
 
                 <div class="single-container">
-                    <h2 class="title">Muhammad Alex</h2>
+                    <h2 class="title"><?php echo $username; ?></h2>
                     <p class="field-name"> Bio </p>
                     <p class="desc"> Description </p>
 
-                    <a href="#"><button class="btn">Edit Profile</button></a>
+                    <a href="edit_profile.php"><button class="btn">Edit Profile</button></a>
 
                 </div>
 
