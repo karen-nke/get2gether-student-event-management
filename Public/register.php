@@ -45,6 +45,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 ?>
 
+<script>
+    function validate(form) {
+        var fail = "";
+
+        fail += validateUsername(form.username.value);
+        fail += validateEmail(form.email.value);
+        fail += validatePassword(form.password.value);
+
+        if (fail == "") return true; // if the fail string is empty, validation passes
+        else {
+            alert(fail);
+            return false;
+        }
+    }
+
+    function validateUsername(field) {
+        if (field == "") return "No Username was entered.\n";
+        else if (field.length < 5 || field.length > 10) return "Username must be between 5 and 10 characters.\n";
+        else if (/[^a-zA-Z0-9_-]/.test(field)) return "Only letters, numbers, hyphens, and underscores are allowed in the username.\n";
+        return "";
+    }
+
+    function validatePassword(field) {
+        if (field == "") return "No Password Entered.\n";
+        else if (field.length < 8) return "Password must be at least 8 characters.\n";
+        else if (!/[a-z]/.test(field) || !/[A-Z]/.test(field) || !/[0-9]/.test(field)) return "Password must contain at least one uppercase letter, one lowercase letter, and one number.\n";
+        return "";
+    }
+
+    function validateEmail(field) {
+        if (field == "") return "No Email Entered.\n";
+        else if (!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field))) return "The Email Address is invalid.\n";
+        return "";
+    }
+</script>
+
 
 <!DOCTYPE html>
 <html lang="en">
