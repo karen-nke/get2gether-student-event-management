@@ -13,10 +13,20 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
     $username = $_SESSION['username'];
     $userId = $_SESSION['user_id'];
 
+    // Fetch user details from the database based on user_id
+    $sql = "SELECT * FROM users WHERE id = $userId";
+    $result = $conn->query($sql);
+
+    if ($result && $result->num_rows > 0) {
+        $userDetails = $result->fetch_assoc();
+    } else {
+        // Handle error or redirect to an error page
+        echo "Error fetching user details";
+        exit();
+    }
 }
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -88,7 +98,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
                 <div class="single-container">
                     <h2 class="title"><?php echo $username; ?></h2>
                     <p class="field-name"> Bio </p>
-                    <p class="desc"> Description </p>
+                    <p class="desc"> <?php echo $userDetails['bio'];?> </p>
 
                     <a href="edit_profile.php"><button class="btn">Edit Profile</button></a>
 
