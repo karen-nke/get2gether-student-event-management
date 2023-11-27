@@ -109,6 +109,10 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                     <h2 class="title"><?php echo $row['club_name']; ?></h2>
                     <h2 class="subscribe">Subscriber Count <span class="count"><?php echo $row['subscriber_count']; ?></span></h2>
                     <a href="#"><button class="btn">Subscribe</button></a>
+                    <form method="post" action="join_club.php">
+                        <input type="hidden" name="club_id" value="<?php echo $club_id; ?>">
+                        <button type="submit" class="btn" name="join_club">Join Club</button>
+                    </form>
                     <a href="edit_details.php?id=<?php echo $club_id; ?>"><button class="btn">Edit Details</button></a>
 
                     <p class="field-name">Club Description</p>
