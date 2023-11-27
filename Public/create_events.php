@@ -2,9 +2,17 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+session_start();
+
 require_once('Part/db_controller.php');
 require_once('Part/navbar.php');
 
+if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
+    // User is logged in, you can use the session variables
+    $username = $_SESSION['username'];
+    $userId = $_SESSION['user_id'];
+
+}
 // Retrieve clubs from the database
 $sql = "SELECT id, club_name FROM clubs";
 $result = mysqli_query($conn, $sql);
