@@ -24,16 +24,22 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id']) && isset($_POST[
         $insert_result = $conn->query($insert_sql);
 
         if ($insert_result) {
-            echo "<script>alert('Joined the club successfully!');</script>";
+            echo "<script>alert('Joined the club successfully!');
+                    window.location.href = document.referrer;
+                </script>";
 
         } else {
 
-            echo "<script>alert('Error joining the club.');</script>";
+            echo "<script>alert('Error joining the club.');
+                    window.location.href = document.referrer;
+                </script>";
 
             
         }
     } else {
-        echo "<script>alert('You are already a member of this club.');</script>";
+        echo "<script>alert('You are already a member of this club.');
+                window.location.href = document.referrer;
+                </script>";
       
     }
 } else {
