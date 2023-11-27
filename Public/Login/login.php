@@ -76,6 +76,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-group">
                 <input type="submit" value="Login">
             </div>
+
+            <p>Don't have an account? <a href = "register.php"> Register Here </a></p>
         </form>
     </div>
 </div>

@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Debugging: User inserted.";
 
             if ($result) {
-                echo "<script>alert('Successfully Registered'); window.location.href = 'index.php';</script>";
+                echo "<script>alert('Successfully Registered'); window.location.href = 'login.php';</script>";
             } else {
                 echo "<script>alert('Something went wrong.')</script>";
             }
@@ -128,6 +128,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-group">
                 <input type="submit" value="Sign Up">
             </div>
+
+            <p>Already have an account? <a href = "login.php"> Login Here </a></p>
         </form>
     </div>
 </div>
