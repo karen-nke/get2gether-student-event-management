@@ -139,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register_event'])) {
         </div>
 
         <form method="post" action="">
-            <button type="submit" class="btn" name="register_event">Register for Event</button>
+            <button type="submit" class="btn" name="register_event">Confirm Registration</button>
         </form>
     </div>
 </body>
