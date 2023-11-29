@@ -40,11 +40,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
         <div class="image-container">
             <img src="Image/Logo_Banner.png" class ="image-banner" alt="Communication Badge">
         </div>
-
-        <h2 class="title"><br>Welcome, <?php echo $username; ?>!</h2>
-
         
-
         <?php require_once('Part/event_section.php'); ?>
 
         
