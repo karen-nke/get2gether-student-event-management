@@ -142,21 +142,27 @@ if(isset($_POST['check'])){
 //if user click login button
 if(isset($_POST['login'])){
     $email = mysqli_real_escape_string($conn, $_POST['email']);
-   $password = mysqli_real_escape_string($conn, $_POST['password']);
-   $check_email = "SELECT * FROM users WHERE email = '$email'";
-   $res = mysqli_query($conn, $check_email);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $check_email = "SELECT * FROM users WHERE email = '$email'";
+    $res = mysqli_query($conn, $check_email);
+
    if(mysqli_num_rows($res) > 0){
        $fetch = mysqli_fetch_assoc($res);
        $fetch_pass = $fetch['password'];
+
        if($password == $fetch_pass){
-           $_SESSION['email'] = $email;
            $status = $fetch['status'];
-           if($status == 'verified'){
-             $_SESSION['email'] = $email;
-             $_SESSION['password'] = $password;
-             $_SESSION['name'] = $name;
-               header('location: ../index.php');
-               
+
+            if($status == 'verified'){
+                $_SESSION['email'] = $email;
+                $_SESSION['password'] = $password;
+                $_SESSION['name'] = $name;
+                $_SESSION['user_id'] = $fetch['id'];
+                $_SESSION['username'] = $fetch['username'];
+              
+
+                header('location: ../index.php');
+                
            }else{
                $info = "It's look like you haven't still verify your email - $email";
                $_SESSION['info'] = $info;
