@@ -6,11 +6,29 @@ require_once('Part/db_controller.php');
 require_once('Part/navbar.php');
 
 if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
-    // User is logged in, you can use the session variables
+
     $username = $_SESSION['username'];
     $userId = $_SESSION['user_id'];
 
 }
+
+function hasPermissionToViewParticipants($user_id, $club_id) {
+    global $conn;
+
+    $sql = "SELECT role FROM memberships WHERE user_id = $user_id AND club_id = $club_id";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $userRole = $row['role'];
+
+        // Check if the user has the role of 'pic' or 'committee'
+        return ($userRole === 'pic' || $userRole === 'committee');
+    } else {
+        return false; // Assuming false if there's no role
+    }
+}
+
 
 ?>
 
@@ -119,7 +137,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
                 echo '<p class="desc">Club Name: ' . $row["club_name"] . '</p>';
                 echo '<p class="desc">Contact Email Address: ' . $row["contact_email"] . '</p>';
 
-                echo '</div>'; // Close event-container div
+                //echo '</div>'; // Close event-container div
 
                 
             } else {
@@ -133,6 +151,39 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
 
         <a href="club_single.php?id=<?php echo $row['club_id']; ?>"><button class="btn">View Club Details</button></a>
         <a href="register_event.php?id=<?php echo $event_id; ?>"><button class="btn">Register</button></a>
+
+        
+
+
+        <?php
+            if (hasPermissionToViewParticipants($userId, $row['club_id'])) {
+                $eventId = $row['id'];
+            
+                // Fetch registered participants
+                $participantsSql = "SELECT users.username FROM event_registrations
+                                    JOIN users ON event_registrations.user_id = users.id
+                                    WHERE event_registrations.event_id = $eventId";
+                $participantsResult = $conn->query($participantsSql);
+            
+                if ($participantsResult->num_rows > 0) {
+                    echo '<div class="participants-section">';
+                    echo '<p class="field-name"> Registered Participants </p>';
+
+                    echo '<ul>';
+                    
+                    while ($participant = $participantsResult->fetch_assoc()) {
+                        echo '<li>' . htmlspecialchars($participant['username']) . '</li>';
+                    }
+            
+                    echo '</ul>';
+                    echo '</div>';
+                } else {
+                    echo '<p>No registered participants for this event.</p>';
+                }
+            }
+    
+        ?>
+        </div> <!-- Close div for single-event-container -->
 
         <?php
 
