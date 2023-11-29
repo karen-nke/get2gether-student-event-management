@@ -83,6 +83,17 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
 
 }
 
+a:link {
+  color: #1D294F;
+}
+
+a:hover {
+  color: #FF7008;
+}
+
+
+
+
 
 
 </style>
@@ -106,22 +117,24 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
                     <div class="joined-clubs">
                         <h2 class="field-name">Joined Clubs</h2>
                         <?php
-                        $joinedClubsSql = "SELECT clubs.club_name
-                                        FROM memberships
-                                        JOIN clubs ON memberships.club_id = clubs.id
-                                        WHERE memberships.user_id = $userId";
+                            $joinedClubsSql = "SELECT clubs.id, clubs.club_name
+                                            FROM memberships
+                                            JOIN clubs ON memberships.club_id = clubs.id
+                                            WHERE memberships.user_id = $userId";
 
-                        $joinedClubsResult = $conn->query($joinedClubsSql);
+                            $joinedClubsResult = $conn->query($joinedClubsSql);
 
-                        if ($joinedClubsResult && $joinedClubsResult->num_rows > 0) {
-                            echo '<ul>';
-                            while ($clubRow = $joinedClubsResult->fetch_assoc()) {
-                                echo '<li>' . htmlspecialchars($clubRow['club_name']) . '</li>';
+                            if ($joinedClubsResult && $joinedClubsResult->num_rows > 0) {
+                                echo '<ul>';
+                                while ($clubRow = $joinedClubsResult->fetch_assoc()) {
+                                    $clubId = $clubRow['id'];
+                                    $clubName = htmlspecialchars($clubRow['club_name']);
+                                    echo '<li><a href="club_single.php?id=' . $clubId . '">' . $clubName . '</a></li>';
+                                }
+                                echo '</ul>';
+                            } else {
+                                echo '<p>No joined clubs yet.</p>';
                             }
-                            echo '</ul>';
-                        } else {
-                            echo '<p>No joined clubs yet.</p>';
-                        }
                         ?>
                     </div>
 
