@@ -171,6 +171,13 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
 
 <body>     
     <div class="page-container">
+    <p class ="title">Search Club</p>
+
+        <form method="get" action="search_results.php">
+            <label for="search_term">Search Term:</label>
+            <input type="text" name="search_term" id="search_term" required>
+            <button type="submit">Search</button>
+        </form>
 
         <div class ="section-container">
             <p class ="title">All Clubs & Societies</p>
