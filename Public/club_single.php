@@ -34,15 +34,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     echo "No club selected";
 }
 
-//Club Event
 
-$club_id = $row['id']; 
-$sql = "SELECT events.*, clubs.club_name FROM events
-        JOIN clubs ON events.club_id = clubs.id
-        WHERE events.club_id = $club_id AND events.start_date >= CURDATE()
-        ORDER BY events.start_date LIMIT 3";
-
-$result = $conn->query($sql);
 
 //Club Member
 $sql = "SELECT clubs.*, COUNT(memberships.user_id) AS member_count
@@ -161,6 +153,10 @@ $userRole = fetchUserRole($userId, $club_id);
                         <a href="edit_details.php?id=<?php echo $club_id; ?>">
                             <button class="btn">Edit Details</button>
                         </a>
+
+                        <a href="edit_members.php?id=<?php echo $club_id; ?>">
+                            <button class="btn">Edit Members</button>
+                        </a>
                     <?php endif; ?>
 
 
@@ -181,6 +177,18 @@ $userRole = fetchUserRole($userId, $club_id);
                     <div class="event-container">
 
                         <?php
+                            error_reporting(E_ALL);
+                            ini_set('display_errors', 1);
+   
+   
+                            $club_id = $row['id']; 
+                            $sql = "SELECT events.*, clubs.club_name FROM events
+                                    JOIN clubs ON events.club_id = clubs.id
+                                    WHERE events.club_id = $club_id AND events.start_date >= CURDATE()
+                                    ORDER BY events.start_date LIMIT 3";
+   
+                            $result = $conn->query($sql);
+   
                             if ($result->num_rows > 0) {
                                 echo '<div class="event-container">';
                                 // Output data of each row
@@ -193,7 +201,6 @@ $userRole = fetchUserRole($userId, $club_id);
                                     echo '<p class="location">Location: ' . $row["event_venue"] . '</p>';
                                     echo '<p class="location">Club: ' . $row["club_name"] . '</p>';
                                     echo '</div>';
-                                    echo '</a>';
                                 }
                                 echo '</div>';
                             } else {
@@ -201,9 +208,11 @@ $userRole = fetchUserRole($userId, $club_id);
                             }
                         ?>
 
+
                     </div>
 
                 </div>
+
     </div>
 
 </body>
