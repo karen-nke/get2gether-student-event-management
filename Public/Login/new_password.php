@@ -22,12 +22,26 @@
     <div class="signup-form">
         <h2>New Password</h2>
 
+        <div class="signup-description">
+            <h4>If change password successfully message shown<br>
+       You can&nbsp&nbsp&nbsp <a class="login-link" href="login.php" >Login here ! </a></h4>   
+        </div>
+
 
         <br>
     
 
-        <?php
-                    if(count($errors) == 1){
+        <?php 
+                    if(isset($_SESSION['info'])){
+                        ?>
+                        <div class="alert alert-success text-center">
+                            <?php echo $_SESSION['info']; ?>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                    <?php
+                    if(count($errors) > 0){
                         ?>
                         <div class="alert alert-danger text-center">
                             <?php
@@ -37,20 +51,8 @@
                             ?>
                         </div>
                         <?php
-                    }elseif(count($errors) > 1){
-                        ?>
-                        <div class="alert alert-danger">
-                            <?php
-                            foreach($errors as $showerror){
-                                ?>
-                                <li><?php echo $showerror; ?></li>
-                                <?php
-                            }
-                            ?>
-                        </div>
-                        <?php
                     }
-                    ?>  
+                    ?>
 
         <div class="register-form">
         <form action="new_password.php" method="post" onSubmit="return validate(this)">
@@ -84,6 +86,7 @@
             <div class="form-group">
                 <input type="submit" value="Reset"  name="change-password" >
             </div>
+
 
         </form>
         </div>

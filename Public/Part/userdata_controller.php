@@ -282,15 +282,13 @@ if(isset($_POST['login'])){
                         if($run_query){
                             $info = "Your password changed. Now you can login with your new password.";
                             $_SESSION['info'] = $info;
-                            header('Location: login.php');
+                            header('Location: new_password.php');
                         }else{
                             $errors['db-error'] = "Failed to change your password!";
                         }
                     }
                 }
                 
-
-	
-	
+ 
 
 ?>

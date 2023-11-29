@@ -95,6 +95,17 @@ body {
             line-height: normal;
         }
 
+        .signup-description a:hover{
+          color: #DDAB58;
+          font-family: Poppins;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: normal;
+          text-decoration:none;
+          cursor: pointer;
+        }
+
         .login-link {
             color: #DDAB58;
             font-family: Poppins;
@@ -102,17 +113,9 @@ body {
             font-style: normal;
             font-weight: 600;
             line-height: normal;
-            text-decoration:none
-        }
-
-        .login-link:focus {
-          color: #DDAB58;
-          font-family: Poppins;
-          font-size: 14px;
-          font-style: normal;
-          font-weight: 600;
-          line-height: normal;
-          text-decoration:none
+            text-decoration:none;
+            cursor: pointer;
+          
         }
 
 
