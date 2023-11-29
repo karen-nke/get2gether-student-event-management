@@ -1,16 +1,44 @@
 <?php
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 session_start();
 
 require_once('Part/db_controller.php');
 require_once('Part/navbar.php');
 
 if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
-
     $username = $_SESSION['username'];
     $userId = $_SESSION['user_id'];
-
+} else {
+    // If the user is not logged in, set $userId to null or any default value
+    $userId = null;
 }
+
+
+if (isset($_GET['id']) && !empty($_GET['id'])) {
+    $event_id = $_GET['id'];
+
+    // Fetch event details based on the id
+    $sql = "SELECT events.*, clubs.club_name, clubs.contact_email FROM events
+            JOIN clubs ON events.club_id = clubs.id
+            WHERE events.id = $event_id";
+
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+    } else {
+        echo "Event not found";
+        exit; // Stop further execution if event not found
+    }
+} else {
+    echo "No event selected";
+    exit; // Stop further execution if no event selected
+}
+
+
 
 function hasPermissionToViewParticipants($user_id, $club_id) {
     global $conn;
@@ -38,7 +66,7 @@ function hasPermissionToViewParticipants($user_id, $club_id) {
 
 <head>
         <meta charset="UTF-8">
-        <title>Home Page</title>
+        <title><?php echo $row['event_title']; ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="style.css">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -96,93 +124,60 @@ function hasPermissionToViewParticipants($user_id, $club_id) {
 <body>
 
     <div class ="page-container">
-        <?php
-        error_reporting(E_ALL);
-        ini_set('display_errors', 1);
+       
+    <div class="image-container">
+            <img src="<?= htmlspecialchars($row["event_image_path"]) ?>" class="image-banner" alt="Event Banner">
+        </div>
 
-        require_once('Part/db_controller.php');
+        <div class="single-event-container">
+            <h2 class="title"><?= $row["event_title"] ?></h2>
 
-        if (isset($_GET['id']) && !empty($_GET['id'])) {
-            $event_id = $_GET['id'];
-            
-            // Fetch event details based on the id
-            $sql = "SELECT events.*, clubs.club_name, clubs.contact_email FROM events
-                    JOIN clubs ON events.club_id = clubs.id
-                    WHERE events.id = $event_id";
+            <p class="field-name">Description</p>
+            <p class="desc"><?= $row["event_description"] ?></p>
 
-            $result = $conn->query($sql);
+            <p class="field-name">Event Date & Time</p>
+            <p class="desc">Event Date: <?= $row["start_date"] ?></p>
+            <p class="desc">Event Time: <?= $row["start_time"] ?> - <?= $row["end_time"] ?></p>
 
-            if ($result->num_rows > 0) {
-                $row = $result->fetch_assoc();
-                // Display event details on this page
-        
-                echo '<div class="image-container">';
-                echo '<img src="' . htmlspecialchars($row["event_image_path"]) . '" class="image-banner" alt="Event Banner">';
-                echo '</div>';
+            <p class="field-name">Event Venue</p>
+            <p class="desc"><?= $row["event_venue"] ?></p>
 
-                echo '<div class="single-event-container">';
-                echo '<h2 class="title">' . $row["event_title"] . '</h2>';
+            <p class="field-name">Organizer</p>
+            <p class="desc">Club Name: <?= $row["club_name"] ?></p>
+            <p class="desc">Contact Email Address: <?= $row["contact_email"] ?></p>
 
-                echo '<p class="field-name">Description</p>';
-                echo '<p class="desc">' . $row["event_description"] . '</p>';
 
-                echo '<p class="field-name">Event Date & Time</p>';
-                echo '<p class="desc">Event Date: ' . $row["start_date"] . '</p>';
-                echo '<p class="desc">Event Time: ' . $row["start_time"] . ' - ' . $row["end_time"] . '</p>';
+            <a href="club_single.php?id=<?php echo $row['club_id']; ?>"><button class="btn">View Club Details</button></a>
+            <a href="register_event.php?id=<?php echo $event_id; ?>"><button class="btn">Register</button></a>
 
-                echo '<p class="field-name">Event Venue</p>';
-                echo '<p class="desc">' . $row["event_venue"] . '</p>';
-
-                echo '<p class="field-name">Organizer</p>';
-                echo '<p class="desc">Club Name: ' . $row["club_name"] . '</p>';
-                echo '<p class="desc">Contact Email Address: ' . $row["contact_email"] . '</p>';
-
-                //echo '</div>'; // Close event-container div
-
+            <?php
+                if ($userId !== null && hasPermissionToViewParticipants($userId, $row['club_id'])) {
+                    $eventId = $row['id'];
                 
-            } else {
-                echo "Event not found";
-            }
-        } else {
-            echo "No event selected";
-        }
-        ?>
+                    // Fetch registered participants
+                    $participantsSql = "SELECT users.username FROM event_registrations
+                                        JOIN users ON event_registrations.user_id = users.id
+                                        WHERE event_registrations.event_id = $eventId";
+                    $participantsResult = $conn->query($participantsSql);
+                
+                    if ($participantsResult->num_rows > 0) {
+                        echo '<div class="participants-section">';
+                        echo '<p class="field-name"> Registered Participants </p>';
 
-
-        <a href="club_single.php?id=<?php echo $row['club_id']; ?>"><button class="btn">View Club Details</button></a>
-        <a href="register_event.php?id=<?php echo $event_id; ?>"><button class="btn">Register</button></a>
-
-        
-
-
-        <?php
-            if (hasPermissionToViewParticipants($userId, $row['club_id'])) {
-                $eventId = $row['id'];
-            
-                // Fetch registered participants
-                $participantsSql = "SELECT users.username FROM event_registrations
-                                    JOIN users ON event_registrations.user_id = users.id
-                                    WHERE event_registrations.event_id = $eventId";
-                $participantsResult = $conn->query($participantsSql);
-            
-                if ($participantsResult->num_rows > 0) {
-                    echo '<div class="participants-section">';
-                    echo '<p class="field-name"> Registered Participants </p>';
-
-                    echo '<ul>';
-                    
-                    while ($participant = $participantsResult->fetch_assoc()) {
-                        echo '<li>' . htmlspecialchars($participant['username']) . '</li>';
+                        echo '<ul>';
+                        
+                        while ($participant = $participantsResult->fetch_assoc()) {
+                            echo '<li>' . htmlspecialchars($participant['username']) . '</li>';
+                        }
+                
+                        echo '</ul>';
+                        echo '</div>';
+                    } else {
+                        echo '<p>No registered participants for this event.</p>';
                     }
-            
-                    echo '</ul>';
-                    echo '</div>';
-                } else {
-                    echo '<p>No registered participants for this event.</p>';
                 }
-            }
-    
-        ?>
+        
+            ?>
         </div> <!-- Close div for single-event-container -->
 
         <?php
@@ -193,50 +188,8 @@ function hasPermissionToViewParticipants($user_id, $club_id) {
         ?>
     </div>
 
-    <!-- <div class="page-container">
-        <div class="image-container">
-                <img src="Image/Event1.png" class ="image-banner" alt="Communication Badge">
-        </div>
-
-        
-            <div class= "event-container">
-                <h2 class="title">Yoga class to freshen up the day</h2>
-                <p class ="field-name">Description</p>
-                <p class ="desc"> ASBDIAHGDFKDHJFKJSHDFKJHSDKJFHKSD </p>
-
-                <p class ="field-name">Event Date & Time</p>
-                <p class ="desc"> Event Date: 13 December 2023 </p>
-                <p class ="desc"> Event Time: 6PM - 8PM </p>
-
-                <p class ="field-name">Event Venue</p>
-                <p class ="desc"> Location</p>
-
-                <p class ="field-name">Organizer</p>
-                <p class ="desc"> Club Name: </p>
-                <p class ="desc"> Contact Email Address: </p>
-
-                <button class ="btn"><a href="#">View Club Details</a></button>
-                <button class ="btn"><a href="#">Register</a></button>
-                
-
-
-
-
-
-            </div>
-
-           
     
-      
-    </div> -->
-
-
-        
-  
-    
-       
-               
-
+            
                         
 </body>
 
