@@ -199,17 +199,14 @@ function hasPermissionToViewParticipants($user_id, $club_id) {
             <?php } ?>
 
             <?php 
-            if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
-                if ($userRole === 'pic'): ?>
-                    <a href="edit_event.php?id=<?php echo $event_id; ?>">
-                        <button class="btn">Edit Events</button>
-                    </a>
-
-
-
-                <?php endif; }?>
-
-
+                if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
+                    if ($userRole === 'pic' || $userRole === 'committee'): ?>
+                        <a href="edit_event.php?id=<?php echo $event_id; ?>">
+                            <button class="btn">Edit Events</button>
+                        </a>
+                    <?php endif;
+                }
+            ?>
 
             <?php
                 if ($user_id !== null && hasPermissionToViewParticipants($user_id, $row['club_id'])) {
@@ -239,7 +236,7 @@ function hasPermissionToViewParticipants($user_id, $club_id) {
                 }
         
             ?>
-        </div> <!-- Close div for single-event-container -->
+        </div> 
 
         <?php
 
