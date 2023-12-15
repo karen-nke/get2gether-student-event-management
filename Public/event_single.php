@@ -38,6 +38,18 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     exit; // Stop further execution if no event selected
 }
 
+$userRegistered = false; // Default value, user not registered
+
+// Check if the user is registered for the event
+$checkRegistrationSql = "SELECT * FROM event_registrations WHERE user_id = $userId AND event_id = $event_id";
+$checkRegistrationResult = $conn->query($checkRegistrationSql);
+
+if ($checkRegistrationResult && $checkRegistrationResult->num_rows > 0) {
+    // User is registered for the event
+    $userRegistered = true;
+}
+
+
 
 
 function hasPermissionToViewParticipants($user_id, $club_id) {
@@ -132,6 +144,7 @@ function hasPermissionToViewParticipants($user_id, $club_id) {
         <div class="single-event-container">
             <h2 class="title"><?= $row["event_title"] ?></h2>
 
+
             <p class="field-name">Description</p>
             <p class="desc"><?= $row["event_description"] ?></p>
 
@@ -149,9 +162,15 @@ function hasPermissionToViewParticipants($user_id, $club_id) {
 
             <a href="club_single.php?id=<?php echo $row['club_id']; ?>"><button class="btn">View Club Details</button></a>
            <?php
-            if (isset($_SESSION["username"])) { ?>
-            <a href="register_event.php?id=<?php echo $event_id; ?>"><button class="btn">Register</button></a>
+            if (isset($_SESSION["username"])) { 
+                if (!$userRegistered) { ?>
+                    <a href="register_event.php?id=<?php echo $event_id; ?>"><button class="btn">Register</button></a>
             <?php } else{ ?>
+                <a href="cancel_registration.php?id=<?php echo $event_id; ?>"><button class="btn">Cancel Registration</button></a>
+                <?php }
+            
+            } else{ ?>
+
                 <a href="Login/login.php"><button class="btn">Login to Register</button></a>
 
             <?php } ?>

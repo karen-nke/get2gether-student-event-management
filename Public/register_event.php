@@ -44,7 +44,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register_event'])) {
         $insert_result = $conn->query($insert_sql);
 
         if ($insert_result) {
-            echo "<script>alert('Event registration successful!');</script>";
+
+            echo "<script>
+                    alert('Event registration successful!');
+                    window.location.href = 'event_single.php?id=" . urlencode($event_id) . "';
+                </script>";
+          
         } else {
             echo "<script>alert('Error registering for the event.');</script>";
         }

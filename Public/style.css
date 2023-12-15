@@ -265,6 +265,14 @@ border-radius: 6px;
 
 }
 
+.single-container .event-card .title{
+  color:#1D294F;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  padding-top:15px;
+}
+
 .event-card .title{
   color:#1D294F;
   font-family: 'Open Sans', sans-serif;
