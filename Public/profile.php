@@ -40,64 +40,6 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<style>
-
-
-
-.single-container .title{
-    color: black;
-    font-size: 64px;
-    font-weight: 700;
-    margin-top: 35px;
-    margin-bottom: 25px;
-}
-
-.single-container .subscribe{
-    color: black;
-    font-size: 32px;
-    font-weight: 700;
-    margin-top:25px;
-}
-
-.single-container .count{
-    padding-left:20px;
-    color: #7E7E7E;
-    font-size: 24px;
-    font-weight: 700;
-}
-
-
-
-.single-container .field-name{
-    color: black;
-    font-size: 24px;
-    font-weight: 700;
-    margin-top: 50px;
-}
-
-.single-container .desc{
-
-    color: #7E7E7E;
-    font-size: 16px;
-    font-weight: 400;
-
-}
-
-a:link {
-  color: #1D294F;
-}
-
-a:hover {
-  color: #FF7008;
-}
-
-
-
-
-
-
-
-</style>
 
 <body>
 

@@ -63,42 +63,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-<style>
-
-form {
-            background-color: white;
-            padding: 20px;
-            margin-top:50px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        input,
-        textarea {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 16px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        input[type="submit"] {
-            background-color: #1D86C5;
-            color: white;
-            cursor: pointer;
-        }
-
-       select{
-            margin-bottom: 16px;
-        }
-
-</style>
 
 <!DOCTYPE html>
 <html lang="en">

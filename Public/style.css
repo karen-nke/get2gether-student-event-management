@@ -327,6 +327,129 @@ color: #fff;
 border: 2px solid #1D86C5;
 }
 
+/*Form*/
+
+form {
+  background-color: white;
+  padding: 20px;
+  margin-top:50px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+input[type="submit"] {
+  background-color: #1D86C5;
+  color: white;
+  cursor: pointer;
+}
+
+select{
+  margin-bottom: 16px;
+}
+
+/*Edit Table Member*/
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+/*Single Event Page*/
+.single-event-container .title{
+  color: black;
+  font-size: 64px;
+  font-weight: 700;
+  margin-top: 35px;
+  margin-bottom: 25px;
+}
+
+.single-event-container .field-name{
+  color: black;
+  font-size: 24px;
+  font-weight: 700;
+  margin-top: 50px;
+}
+
+.single-event-container .desc{
+
+  color: #7E7E7E;
+  font-size: 16px;
+  font-weight: 400;
+
+}
+
+/*Profile Page */
+.single-container .title{
+  color: black;
+  font-size: 64px;
+  font-weight: 700;
+  margin-top: 35px;
+  margin-bottom: 25px;
+}
+
+.single-container .subscribe{
+  color: black;
+  font-size: 32px;
+  font-weight: 700;
+  margin-top:25px;
+}
+
+.single-container .count{
+  padding-left:20px;
+  color: #7E7E7E;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+
+
+.single-container .field-name{
+  color: black;
+  font-size: 24px;
+  font-weight: 700;
+  margin-top: 50px;
+}
+
+.single-container .desc{
+
+  color: #7E7E7E;
+  font-size: 16px;
+  font-weight: 400;
+
+}
+
+a:link {
+color: #1D294F;
+}
+
+a:hover {
+color: #FF7008;
+}
 
 
 

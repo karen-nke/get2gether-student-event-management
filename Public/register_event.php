@@ -72,50 +72,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register_event'])) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<style>
-    .page-container {
-        max-width: 1300px;
-        margin: auto;
-        padding: 25px;
-    }
-
-    .image-container {
-        display: flex;
-        justify-content: center;
-    }
-
-    .image-banner {
-        margin-left: auto;
-        margin-right: auto;
-        width: 50%;
-    }
-
-    .single-event-container .title {
-        color: black;
-        font-size: 64px;
-        font-weight: 700;
-        margin-top: 35px;
-        margin-bottom: 25px;
-    }
-
-    .single-event-container .field-name {
-        color: black;
-        font-size: 24px;
-        font-weight: 700;
-        margin-top: 50px;
-    }
-
-    .single-event-container .desc {
-        color: #7E7E7E;
-        font-size: 16px;
-        font-weight: 400;
-    }
-
-    .btn {
-        margin-top: 20px;
-    }
-</style>
-
 <body>
 
     <div class="page-container">
