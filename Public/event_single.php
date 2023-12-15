@@ -7,6 +7,8 @@ session_start();
 
 require_once('Part/db_controller.php');
 require_once('Part/navbar.php');
+require_once('logic_controller.php');
+
 
 if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
     $username = $_SESSION['username'];
@@ -21,15 +23,9 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     $event_id = $_GET['id'];
 
     // Fetch event details based on the id
-    $sql = "SELECT events.*, clubs.club_name, clubs.contact_email FROM events
-            JOIN clubs ON events.club_id = clubs.id
-            WHERE events.id = $event_id";
+    $eventDetails = fetchEventDetails_ID($event_id, $conn);
 
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-    } else {
+    if (!$eventDetails) {
         echo "Event not found";
         exit; // Stop further execution if event not found
     }
@@ -37,58 +33,13 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     echo "No event selected";
     exit; // Stop further execution if no event selected
 }
-$club_id = $row['club_id'];
 
-$userRegistered = false; // Default value, user not registered
-
-// Check if the user is registered for the event
-$checkRegistrationSql = "SELECT * FROM event_registrations WHERE user_id = $user_id AND event_id = $event_id";
-$checkRegistrationResult = $conn->query($checkRegistrationSql);
-
-if ($checkRegistrationResult && $checkRegistrationResult->num_rows > 0) {
-    // User is registered for the event
-    $userRegistered = true;
-}
+$club_id = $eventDetails['club_id'];
+$userRegistered = isUserRegisteredForEvent($user_id, $event_id, $conn);
 
 if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
-
-    
-    function fetchUserRole($user_id, $club_id) {
-        global $conn;
-    
-        $sql = "SELECT role FROM memberships WHERE user_id = $user_id AND club_id = $club_id";
-        $result = $conn->query($sql);
-    
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            return $row['role'];
-        } else {
-            return ""; 
-        }
-    }
-    
-    $userRole = fetchUserRole($user_id, $club_id);
-}
-
-
-
-
-
-function hasPermissionToViewParticipants($user_id, $club_id) {
-    global $conn;
-
-    $sql = "SELECT role FROM memberships WHERE user_id = $user_id AND club_id = $club_id";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $userRole = $row['role'];
-
-        // Check if the user has the role of 'pic' or 'committee'
-        return ($userRole === 'pic' || $userRole === 'committee');
-    } else {
-        return false; // Assuming false if there's no role
-    }
+    $userRole = fetchUserRole($user_id, $club_id, $conn);
+    $hasPermissionToViewParticipants = hasPermissionToViewParticipants($user_id, $club_id);
 }
 
 
@@ -100,7 +51,7 @@ function hasPermissionToViewParticipants($user_id, $club_id) {
 
 <head>
         <meta charset="UTF-8">
-        <title><?php echo $row['event_title']; ?></title>
+        <title><?php echo $eventDetails['event_title']; ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="style.css">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -111,30 +62,30 @@ function hasPermissionToViewParticipants($user_id, $club_id) {
     <div class ="page-container">
        
     <div class="image-container">
-            <img src="<?= htmlspecialchars($row["event_image_path"]) ?>" class="image-banner" alt="Event Banner">
+            <img src="<?= htmlspecialchars($eventDetails["event_image_path"]) ?>" class="image-banner" alt="Event Banner">
         </div>
 
         <div class="single-event-container">
-            <h2 class="title"><?= $row["event_title"] ?></h2>
+            <h2 class="title"><?= $eventDetails["event_title"] ?></h2>
 
 
             <p class="field-name">Description</p>
-            <p class="desc"><?= $row["event_description"] ?></p>
+            <p class="desc"><?= $eventDetails["event_description"] ?></p>
 
             <p class="field-name">Event Date & Time</p>
-            <p class="desc">Event Date: <?= $row["start_date"] ?></p>
-            <p class="desc">Event Time: <?= $row["start_time"] ?> - <?= $row["end_time"] ?></p>
+            <p class="desc">Event Date: <?= $eventDetails["start_date"] ?></p>
+            <p class="desc">Event Time: <?= $eventDetails["start_time"] ?> - <?= $eventDetails["end_time"] ?></p>
 
             <p class="field-name">Event Venue</p>
-            <p class="desc"><?= $row["event_venue"] ?></p>
+            <p class="desc"><?= $eventDetails["event_venue"] ?></p>
 
             <p class="field-name">Organizer</p>
-            <p class="desc">Club Name: <?= $row["club_name"] ?></p>
-            <p class="desc">Contact Email Address: <?= $row["contact_email"] ?></p>
+            <p class="desc">Club Name: <?= $eventDetails["club_name"] ?></p>
+            <p class="desc">Contact Email Address: <?= $eventDetails["contact_email"] ?></p>
 
             
 
-            <a href="club_single.php?id=<?php echo $row['club_id']; ?>"><button class="btn">View Club Details</button></a>
+            <a href="club_single.php?id=<?php echo $eventDetails['club_id']; ?>"><button class="btn">View Club Details</button></a>
            <?php
             if (isset($_SESSION["username"])) { 
                 if (!$userRegistered) { ?>
@@ -160,8 +111,8 @@ function hasPermissionToViewParticipants($user_id, $club_id) {
             ?>
 
             <?php
-                if ($user_id !== null && hasPermissionToViewParticipants($user_id, $row['club_id'])) {
-                    $event_id = $row['id'];
+                if ($user_id !== null && hasPermissionToViewParticipants($user_id, $eventDetails['club_id'])) {
+                    $event_id = $eventDetails['id'];
                 
                     // Fetch registered participants
                     $participantsSql = "SELECT users.username FROM event_registrations

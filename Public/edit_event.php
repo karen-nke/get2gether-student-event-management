@@ -4,17 +4,16 @@ ini_set('display_errors', 1);
 
 require_once('Part/db_controller.php');
 require_once('Part/navbar.php');
+require_once('logic_controller.php');
 
 if (isset($_GET['id']) && !empty($_GET['id'])) {
     $event_id = $_GET['id'];
 
-    // Fetch Events details based on the id
-    $sql = "SELECT * FROM events WHERE id = $event_id";
-    $result = $conn->query($sql);
+    // Fetch Event details based on the id using the function from logic_controller.php
+    $eventDetails = fetchEventDetails($event_id, $conn);
 
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-       
+    if ($eventDetails) {
+        // Event details are available, you can use $eventDetails array
     } else {
         echo "Event not found";
     }
@@ -22,37 +21,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     echo "No event selected";
 }
 
-// Handle form submission to update event details
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $newEventTitle = $_POST['newEventTitle'];
-    $newEventVenue = $_POST['newEventVenue'];
-    $newStartTime = $_POST['newStartTime'];
-    $newEndTime = $_POST['newEndTime'];
-    $newStartDate = $_POST['newStartDate'];
-    $newEndDate = $_POST['newEndDate'];
-    $newEventDescription = $_POST['newEventDescription'];
-
-    // Update the database with the new details
-    $updateSql = "UPDATE events SET
-                    event_title = '$newEventTitle',
-                    event_venue = '$newEventVenue',
-                    start_time = '$newStartTime',
-                    end_time = '$newEndTime',
-                    start_date = '$newStartDate',
-                    end_date = '$newEndDate',
-                    event_description = '$newEventDescription'
-                  WHERE id = $event_id";
-
-    if ($conn->query($updateSql) === TRUE) {
-        echo "<script>alert('Event details updated successfully');
-        window.location.href = 'event_single.php?id=" . urlencode($event_id) . "';
-        
-        </script>";
-       
-    } else {
-        echo "<script>alert('Error updating event details');</script>";
-    }
-}
+handleEventDetailsUpdate($event_id, $conn)
 ?>
 
 
@@ -75,25 +44,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h2>Edit Event Details</h2>
 
             <label for="newEventTitle">New Event Title</label>
-            <input type="text" id="newEventTitle" name="newEventTitle" value="<?php echo $row['event_title']; ?>">
+            <input type="text" id="newEventTitle" name="newEventTitle" value="<?php echo $eventDetails['event_title']; ?>">
 
             <label for="newEventVenue">New Event Venue</label>
-            <input type="text" id="newEventVenue" name="newEventVenue" value="<?php echo $row['event_venue']; ?>">
+            <input type="text" id="newEventVenue" name="newEventVenue" value="<?php echo $eventDetails['event_venue']; ?>">
 
             <label for="newStartTime">New Start Time</label>
-            <input type="time" id="newStartTime" name="newStartTime" value="<?php echo $row['start_time']; ?>">
+            <input type="time" id="newStartTime" name="newStartTime" value="<?php echo $eventDetails['start_time']; ?>">
 
             <label for="newEndTime">New End Time</label>
-            <input type="time" id="newEndTime" name="newEndTime" value="<?php echo $row['end_time']; ?>">
+            <input type="time" id="newEndTime" name="newEndTime" value="<?php echo $eventDetails['end_time']; ?>">
 
             <label for="newStartDate">New Start Date</label>
-            <input type="date" id="newStartDate" name="newStartDate" value="<?php echo $row['start_date']; ?>">
+            <input type="date" id="newStartDate" name="newStartDate" value="<?php echo $eventDetails['start_date']; ?>">
 
             <label for="newEndDate">New End Date</label>
-            <input type="date" id="newEndDate" name="newEndDate" value="<?php echo $row['end_date']; ?>">
+            <input type="date" id="newEndDate" name="newEndDate" value="<?php echo $eventDetails['end_date']; ?>">
 
             <label for="newEventDescription">New Event Description</label>
-            <textarea id="newEventDescription" name="newEventDescription" rows="4"><?php echo $row['event_description']; ?></textarea>
+            <textarea id="newEventDescription" name="newEventDescription" rows="4"><?php echo $eventDetails['event_description']; ?></textarea>
 
           
 

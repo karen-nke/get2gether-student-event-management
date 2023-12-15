@@ -4,17 +4,15 @@ ini_set('display_errors', 1);
 
 require_once('Part/db_controller.php');
 require_once('Part/navbar.php');
+require_once('logic_controller.php');
+
 
 if (isset($_GET['id']) && !empty($_GET['id'])) {
     $club_id = $_GET['id'];
 
-    // Fetch club details based on the id
-    $sql = "SELECT * FROM clubs WHERE id = $club_id";
-    $result = $conn->query($sql);
+    $clubDetails = fetchClubDetails($club_id, $conn);
 
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        // Display club details on this page
+    if ($clubDetails) {
     } else {
         echo "Club not found";
     }
@@ -22,32 +20,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     echo "No club selected";
 }
 
-// Handle form submission to update club details
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $newDescription = $_POST['newDescription'];
-    $newContactEmail = $_POST['newContactEmail'];
-    $newInstagramLink = $_POST['newInstagramLink'];
-    $newFacebookLink = $_POST['newFacebookLink'];
-
-    // Update the database with the new details
-    $updateSql = "UPDATE clubs SET
-                    description = '$newDescription',
-                    contact_email = '$newContactEmail',
-                    instagram_link = '$newInstagramLink',
-                    facebook_link = '$newFacebookLink'
-                  WHERE id = $club_id";
-
-    if ($conn->query($updateSql) === TRUE) {
-        echo "<script>alert('Club details updated successfully');
-        window.location.href = 'club_single.php?id=" . urlencode($club_id) . "';
-        
-        </script>";
-       
-    } else {
-        echo "<script>alert('Error updating club details');</script>";
-    
-    }
-}
+handleClubDetailsUpdate($club_id, $conn);
 ?>
 
 <!DOCTYPE html>
@@ -70,16 +43,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h2>Edit Club Details</h2>
 
             <label for="newDescription">New Description</label>
-            <textarea id="newDescription" name="newDescription" rows="4"><?php echo $row['description']; ?></textarea>
+            <textarea id="newDescription" name="newDescription" rows="4"><?php echo $clubDetails['description']; ?></textarea>
 
             <label for="newContactEmail">New Contact Email</label>
-            <input type="text" id="newContactEmail" name="newContactEmail" value="<?php echo $row['contact_email']; ?>">
+            <input type="text" id="newContactEmail" name="newContactEmail" value="<?php echo $clubDetails['contact_email']; ?>">
 
             <label for="newInstagramLink">New Instagram Link</label>
-            <input type="text" id="newInstagramLink" name="newInstagramLink" value="<?php echo $row['instagram_link']; ?>">
+            <input type="text" id="newInstagramLink" name="newInstagramLink" value="<?php echo $clubDetails['instagram_link']; ?>">
 
             <label for="newFacebookLink">New Facebook Link</label>
-            <input type="text" id="newFacebookLink" name="newFacebookLink" value="<?php echo $row['facebook_link']; ?>">
+            <input type="text" id="newFacebookLink" name="newFacebookLink" value="<?php echo $clubDetails['facebook_link']; ?>">
 
             <input type="submit" value="Update Details">
         </form>
