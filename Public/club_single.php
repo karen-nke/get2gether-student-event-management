@@ -146,7 +146,6 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
             
 
                     <h2 class="subscribe">Member Count <span class="count"><?php echo $member_count ?></span></h2>
-                    <a href="#"><button class="btn">Subscribe</button></a>
 
                    <?php if (isset($_SESSION["username"])) { ?>
 
