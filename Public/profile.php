@@ -11,10 +11,10 @@ require_once('Part/navbar.php');
 if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
     // User is logged in, you can use the session variables
     $username = $_SESSION['username'];
-    $userId = $_SESSION['user_id'];
+    $user_id = $_SESSION['user_id'];
 
     // Fetch user details from the database based on user_id
-    $sql = "SELECT * FROM users WHERE id = $userId";
+    $sql = "SELECT * FROM users WHERE id = $user_id";
     $result = $conn->query($sql);
 
     if ($result && $result->num_rows > 0) {
@@ -96,6 +96,7 @@ a:hover {
 
 
 
+
 </style>
 
 <body>
@@ -120,7 +121,7 @@ a:hover {
                             $joinedClubsSql = "SELECT clubs.id, clubs.club_name
                                             FROM memberships
                                             JOIN clubs ON memberships.club_id = clubs.id
-                                            WHERE memberships.user_id = $userId";
+                                            WHERE memberships.user_id = $user_id";
 
                             $joinedClubsResult = $conn->query($joinedClubsSql);
 
@@ -137,6 +138,37 @@ a:hover {
                             }
                         ?>
                     </div>
+
+                    <!-- Display registered events -->
+                    <div class="registered-events">
+                        <h2 class="field-name">Registered Events</h2>
+                        <?php
+                            $registeredEventsSql = "SELECT events.*, clubs.club_name
+                                                FROM event_registrations
+                                                JOIN events ON event_registrations.event_id = events.id
+                                                JOIN clubs ON events.club_id = clubs.id
+                                                WHERE event_registrations.user_id = $user_id";
+
+                            $registeredEventsResult = $conn->query($registeredEventsSql);
+
+                            if ($registeredEventsResult && $registeredEventsResult->num_rows > 0) {
+                                while ($eventRow = $registeredEventsResult->fetch_assoc()) {
+                                    echo '<a href="event_single.php?id=' . $eventRow["id"] . '">';
+                                        echo '<div class="event-card">';
+                                        echo '<img src="' . htmlspecialchars($eventRow["event_image_path"]) . '" alt="Event Image">';
+                                        echo '<h2 class="title">' . $eventRow["event_title"] . '</h2>';
+                                        echo '<p class="date">Date & Time: ' . $eventRow["start_date"] . '</p>';
+                                        echo '<p class="location">Location: ' . $eventRow["event_venue"] . '</p>';
+                                        echo '<p class="location">Club: ' . $eventRow["club_name"] . '</p>';
+                                        echo '</div>';
+                                    echo '</a>';  
+                                }
+                            } else {
+                                echo '<p>No registered events yet.</p>';
+                            }
+                        ?>
+                    </div>
+
 
                 </div>
 
