@@ -66,13 +66,25 @@ if(isset($_POST['Continue'])){
     if($password !== $CPassword){
         $errors['password'] = "Confirm password not matched!";
     }
+    if (!preg_match('/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*\W).{8,}$/', $password)) {
+        $errors['password'] = "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 symbol.";
+    }
+
     $email_check = "SELECT * FROM users WHERE email = '$email'";
     $res = mysqli_query($conn, $email_check);
     if(mysqli_num_rows($res) > 0){
         $errors['email'] = "Email that you have entered is already exist!";
     }
+
+    $email_check = "SELECT * FROM users WHERE username = '$username'";
+    $res = mysqli_query($conn, $email_check);
+    if(mysqli_num_rows($res) > 0){
+        $errors['username'] = "Student ID has already exists";
+    }
+
     if(count($errors) === 0){
-        $encpass = $password;
+        $encpass = password_hash($password, PASSWORD_DEFAULT); 
+     
         $code = rand(999999, 111111);
         $status = "notverified";
         $insert_data = "INSERT INTO users (username, email, password, code, status)
@@ -266,29 +278,33 @@ if(isset($_POST['login'])){
 
 
                     //if user click change password button
-                if(isset($_POST['change-password'])){
-                    $_SESSION['info'] = "";
-                    $password = mysqli_real_escape_string($conn, $_POST['password']);
-                    $CPassword = mysqli_real_escape_string($conn, $_POST['CPassword']);
-                    if($password !== $CPassword){
-                        $errors['password'] = "Confirm password not matched!";
-                    }else{
-                        $code = 0;
-                        $email = $_SESSION['email']; //getting this email using session
-                        $encpass = $password;
+                    if (isset($_POST['change-password'])) {
+                        $_SESSION['info'] = "";
+                        $password = mysqli_real_escape_string($conn, $_POST['password']);
+                        $CPassword = mysqli_real_escape_string($conn, $_POST['CPassword']);
                     
-                        $update_pass = "UPDATE users SET code = $code, password = '$encpass' WHERE email = '$email'";
-                        $run_query = mysqli_query($conn, $update_pass);
-                        if($run_query){
-                            $info = "Your password changed. Now you can login with your new password.";
-                            $_SESSION['info'] = $info;
-                            header('Location: new_password.php');
-                        }else{
-                            $errors['db-error'] = "Failed to change your password!";
+                        if ($password !== $CPassword) {
+                            $errors['password'] = "Confirm password not matched!";
+                        } elseif (!preg_match('/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*\W).{8,}$/', $password)) {
+                            // Check for password complexity
+                            $errors['password'] = "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 symbol.";
+                        } else {
+                            $code = 0;
+                            $email = $_SESSION['email']; // Getting this email using session
+                            $encpass = password_hash($password, PASSWORD_DEFAULT); 
+                    
+                            $update_pass = "UPDATE users SET code = $code, password = '$encpass' WHERE email = '$email'";
+                            $run_query = mysqli_query($conn, $update_pass);
+                            if ($run_query) {
+                                $info = "Your password changed. Now you can login with your new password.";
+                                $_SESSION['info'] = $info;
+                                header('Location: new_password.php');
+                            } else {
+                                $errors['db-error'] = "Failed to change your password!";
+                            }
                         }
                     }
-                }
-                
+                    
  
 
 ?>
