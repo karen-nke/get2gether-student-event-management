@@ -1,5 +1,5 @@
-<?php require "../Part/userdata_controller.php"; ?>
-<?php 
+<?php require "../Part/userdata_controller.php"; 
+
 $email = $_SESSION['email'];
 if($email == false){
   header('Location: login.php');

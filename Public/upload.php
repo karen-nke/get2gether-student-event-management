@@ -1,4 +1,12 @@
 <?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'phpmailer/src/Exception.php';
+require 'phpmailer/src/PHPMailer.php';
+require 'phpmailer/src/SMTP.php';
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -40,44 +48,85 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error uploading the file.";
     }
 
+    try {
+        $mail = new PHPMailer(true);
+
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'get2gethersunway@gmail.com';
+        $mail->Password = 'iwxkjktuwsbifbox';
+        $mail->SMTPSecure = 'tls'; // Change to 'tls'
+        $mail->Port = 587; // Change to 587
+
+        $mail->setFrom('get2gethersunway@gmail.com');
+        
+        // $mail->addAddress($_POST["email"]);
+        $emailSql = "SELECT email FROM users";
+        $emailResult = mysqli_query($conn, $emailSql);
+
+        if ($conn->query($sql) === TRUE) {
+            echo "Event created successfully";
+        
+            // Fetch additional information from the events table
+            $eventInfoSql = "SELECT start_time, end_time, start_date, end_date, event_image_path, event_description FROM events WHERE event_title = '$eventTitle'";
+            $eventInfoResult = mysqli_query($conn, $eventInfoSql);
+        
+            if ($eventInfoResult) {
+                $eventInfo = mysqli_fetch_assoc($eventInfoResult);
+        
+                // Include additional information in the email body
+                // $mail->Body .= "<br><img src='" . $eventInfo['event_image_path'] . "' alt='Event Image'>";
+                $mail->Body .= "<br><img src='cid:event_image' alt='Event Image'>";
+                $mail->Body .= "<br>Event Description: " . $eventInfo['event_description'];
+                $mail->Body .= "<br>Start Time: " . $eventInfo['start_time'];
+                $mail->Body .= "<br>End Time: " . $eventInfo['end_time'];
+                $mail->Body .= "<br>Start Date: " . $eventInfo['start_date'];
+                $mail->Body .= "<br>End Date: " . $eventInfo['end_date'];
+
+
+                $mail->AddEmbeddedImage($eventInfo['event_image_path'], 'event_image', 'event_image.png');
+            } else {
+                echo "Error fetching event information from the database.";
+            }
+        
+            // Fetch email addresses from the users table
+            $emailSql = "SELECT email FROM users";
+            $emailResult = mysqli_query($conn, $emailSql);
+        
+            if ($emailResult) {
+                while ($row = mysqli_fetch_assoc($emailResult)) {
+                    // Add each email address to the recipient list
+                    $mail->addAddress($row['email']);
+                }
+            } else {
+                echo "Error fetching emails from the database.";
+            }
+        
+            $mail->isHTML(true);
+        
+            $mail->Subject = "New Event: " . $eventTitle;
+        
+            $mail->send();
+        
+            echo "
+                <script>
+                alert('Sent Successfully');
+                document.location.href = 'index.php';
+                </script>
+            ";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+
+
+    } catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    }
+
     // Close the database connection
     $conn->close();
 }
-
-
-// if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//     // Get form data
-//     $eventTitle = $_POST['eventTitle'];
-//     $eventVenue = $_POST['eventVenue'];
-//     $startTime = $_POST['startTime'];
-//     $endTime = $_POST['endTime'];
-//     $startDate = $_POST['startDate'];
-//     $endDate = $_POST['endDate'];
-//     $eventDescription = $_POST['eventDescription'];
-
-//     // Upload image
-//     $uploadDirectory = $_SERVER['DOCUMENT_ROOT'] . "/Applications/XAMPP/xamppfiles/htdocs/Untitled/Public/uploads/";
-//     $fileName = uniqid() . '_' . basename($_FILES["eventImage"]["name"]);
-//     $targetPath = $uploadDirectory . $fileName;
-
-//     if (move_uploaded_file($_FILES["eventImage"]["tmp_name"], $targetPath)) {
-
-//         // Insert data into the database
-//         $sql = "INSERT INTO events (event_title, event_venue, start_time, end_time, start_date, end_date, event_image_path, event_description)
-//                 VALUES ('$eventTitle', '$eventVenue', '$startTime', '$endTime', '$startDate', '$endDate', '$targetPath', '$eventDescription')";
-
-//         if ($conn->query($sql) === TRUE) {
-//             echo "Event created successfully";
-//         } else {
-//             echo "Error: " . $sql . "<br>" . $conn->error;
-//         }
-//     } else {
-//         echo "Error uploading the file.";
-//     }
-
-//     // Close the database connection
-//     $conn->close();
-// }
 
 
 

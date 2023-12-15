@@ -26,29 +26,19 @@
              You can&nbsp&nbsp&nbsp <a class="login-link" href="register.php" >Register here ! </a></h4>   
         </div>
 
-            <?php 
-            if(isset($_SESSION['info']) && count($errors) === 0){
-                ?>
-                <div class="alert alert-success text-center">
-                    <?php echo $_SESSION['info']; ?>
-                </div>
-                <?php
-                // Clear the success message after displaying it
-                unset($_SESSION['info']);
-            }
-
-            if(count($errors) > 0 && !isset($_SESSION['info'])){
-                ?>
-                <div class="alert alert-danger text-center">
-                    <?php
-                    foreach($errors as $showerror){
-                        echo $showerror;
+        <?php
+                    if(count($errors) > 0){
+                        ?>
+                        <div class="alert alert-danger text-center">
+                            <?php
+                            foreach($errors as $showerror){
+                                echo $showerror;
+                            }
+                            ?>
+                        </div>
+                        <?php
                     }
-                    ?>
-                </div>
-                <?php
-            }
-            ?>
+         ?>
 
         <div class="register-form">
         <form action="login.php" method="post">

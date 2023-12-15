@@ -178,6 +178,10 @@
   
 }
 
+a{
+  text-decoration: none; 
+}
+
 
 /*Home Page Center Banner*/
 .banner-container{
