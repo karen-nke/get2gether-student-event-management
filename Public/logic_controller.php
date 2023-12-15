@@ -59,4 +59,19 @@ function fetchClubDetails($club_id, $conn) {
         return false;
     }
 }
+
+function getAllClubs($conn) {
+    $clubs = array();
+
+    $sql = "SELECT * FROM clubs";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $clubs[] = $row;
+        }
+    }
+
+    return $clubs;
+}
 ?>
