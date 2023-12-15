@@ -45,7 +45,6 @@ $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
-    // Get the count of members for this club
     $member_count = $row['member_count'];
 } else {
     echo "Club not found";
@@ -85,53 +84,6 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-
-<style>
-
-
-
-.single-container .title{
-    color: black;
-    font-size: 64px;
-    font-weight: 700;
-    margin-top: 35px;
-    margin-bottom: 25px;
-}
-
-.single-container .subscribe{
-    color: black;
-    font-size: 32px;
-    font-weight: 700;
-    margin-top:25px;
-}
-
-.single-container .count{
-    padding-left:20px;
-    color: #7E7E7E;
-    font-size: 24px;
-    font-weight: 700;
-}
-
-
-
-.single-container .field-name{
-    color: black;
-    font-size: 24px;
-    font-weight: 700;
-    margin-top: 50px;
-}
-
-.single-container .desc{
-
-    color: #7E7E7E;
-    font-size: 16px;
-    font-weight: 400;
-
-}
-
-
-
-</style>
 
 <body>
 
