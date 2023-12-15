@@ -6,27 +6,29 @@ session_start();
 
 require_once('Part/db_controller.php');
 require_once('Part/navbar.php');
+require_once('logic_controller.php');
 
 if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
-    // User is logged in, you can use the session variables
     $username = $_SESSION['username'];
     $user_id = $_SESSION['user_id'];
-
+} else {
+    // If the user is not logged in, set $user_id to null or any default value
+    $user_id = null;
 }
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-        <meta charset="UTF-8">
-        <title>Events</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <title>Events</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-
 
 <body>
     <div class="page-container">
@@ -34,7 +36,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
             <img src="Image/Logo_Banner.png" class="image-banner" alt="Communication Badge">
         </div>
 
-        <p class ="title">Search Events</p>
+        <p class="title">Search Events</p>
 
         <form method="get" action="search_results.php">
             <label for="search_term">Search Term:</label>
@@ -42,82 +44,53 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
             <button type="submit">Search</button>
         </form>
 
+        <?php
+        // Fetch upcoming events
+        $upcomingEvents = fetchEvents($conn, "events.end_date >= CURDATE()");
+        ?>
+
         <div class="section-container">
             <p class="title">Upcoming Event</p>
 
             <div class="event-container">
-
-                <?php
-                
-                $sql = "SELECT events.*, clubs.club_name FROM events
-                        JOIN clubs ON events.club_id = clubs.id
-                        WHERE events.end_date >= CURDATE()" ;
-
-                $result = $conn->query($sql);
-
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        echo '<a href="event_single.php?id=' . $row["id"] . '">';
-                            echo '<div class="event-card">';
-                                echo '<img src="' . htmlspecialchars($row["event_image_path"]) . '" alt="Event Image">';
-                                echo '<h2 class="title">' . $row["event_title"] . '</h2>';
-                                echo '<p class="date">Date & Time: ' . $row["start_date"] . '</p>';
-                                echo '<p class="location">Location: ' . $row["event_venue"] . '</p>';
-                                echo '<p class="location">Club: ' . $row["club_name"] . '</p>';
-                            
-                            echo '</div>';
-                        echo '</a>';  
-                    }
-                } else {
-                    echo "0 results";
-                }
-
-                
-                ?>
-
+            <div class="event-container">
+                <?php foreach ($upcomingEvents as $event): ?>
+                    <a href="event_single.php?id=<?= $event['id']; ?>">
+                        <div class="event-card">
+                            <img src="<?= htmlspecialchars($event['event_image_path']); ?>" alt="Event Image">
+                            <h2 class="title"><?= $event['event_title']; ?></h2>
+                            <p class="date">Date & Time: <?= $event['start_date']; ?></p>
+                            <p class="location">Location: <?= $event['event_venue']; ?></p>
+                            <p class="location">Club: <?= $event['club_name']; ?></p>
+                        </div>
+                    </a>
+                <?php endforeach; ?>
             </div>
-
+            </div>
         </div>
+
+        <?php
+        // Fetch past events
+        $pastEvents = fetchEvents($conn, "events.end_date < CURDATE()");
+        ?>
 
         <div class="section-container">
             <p class="title">Past Event</p>
 
             <div class="event-container">
-
                 <?php
-                
-                $sql = "SELECT events.*, clubs.club_name FROM events
-                        JOIN clubs ON events.club_id = clubs.id
-                        WHERE events.end_date < CURDATE()" ;
-
-                $result = $conn->query($sql);
-
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                       
-                            echo '<div class="event-card">';
-                                echo '<img src="' . htmlspecialchars($row["event_image_path"]) . '" alt="Event Image">';
-                                echo '<h2 class="title">' . $row["event_title"] . '</h2>';
-                                echo '<p class="date">Date & Time: ' . $row["start_date"] . '</p>';
-                                echo '<p class="location">Location: ' . $row["event_venue"] . '</p>';
-                                echo '<p class="location">Club: ' . $row["club_name"] . '</p>';
-                            
-                            echo '</div>';
-            
-                    }
-                } else {
-                    echo "0 results";
-                }
-
-                $conn->close();
-                ?>
-
+                foreach ($pastEvents as $event): ?>
+                    <div class="event-card">
+                            <img src="<?= htmlspecialchars($event['event_image_path']); ?>" alt="Event Image">
+                            <h2 class="title"><?= $event['event_title']; ?></h2>
+                            <p class="date">Date & Time: <?= $event['start_date']; ?></p>
+                            <p class="location">Location: <?= $event['event_venue']; ?></p>
+                            <p class="location">Club: <?= $event['club_name']; ?></p>
+                    </div>
+                <?php endforeach; ?>
             </div>
-
         </div>
     </div>
-
 </body>
 
 </html>
-

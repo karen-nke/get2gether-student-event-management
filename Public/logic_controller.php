@@ -201,4 +201,87 @@ function hasPermissionToViewParticipants($user_id, $club_id)
     }
 }
 
+// Events Page
+
+function fetchEvents($conn, $endDateCondition) {
+    $events = array();
+
+    $sql = "SELECT events.*, clubs.club_name FROM events
+            JOIN clubs ON events.club_id = clubs.id
+            WHERE $endDateCondition";
+
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $events[] = $row;
+        }
+    }
+
+    return $events;
+}
+
+//User Profile 
+function getUserDetails($user_id, $conn) {
+    $sql = "SELECT * FROM users WHERE id = $user_id";
+    $result = $conn->query($sql);
+
+    if ($result && $result->num_rows > 0) {
+        return $result->fetch_assoc();
+    } else {
+        return false;
+    }
+}
+
+function getJoinedClubs($user_id, $conn) {
+    $joinedClubsSql = "SELECT clubs.id, clubs.club_name
+                    FROM memberships
+                    JOIN clubs ON memberships.club_id = clubs.id
+                    WHERE memberships.user_id = $user_id";
+
+    $joinedClubsResult = $conn->query($joinedClubsSql);
+
+    if ($joinedClubsResult && $joinedClubsResult->num_rows > 0) {
+        $clubs = [];
+        while ($clubRow = $joinedClubsResult->fetch_assoc()) {
+            $clubs[] = [
+                'id' => $clubRow['id'],
+                'club_name' => htmlspecialchars($clubRow['club_name']),
+            ];
+        }
+        return $clubs;
+    } else {
+        return [];
+    }
+}
+
+function getRegisteredEvents($user_id, $conn) {
+    $registeredEventsSql = "SELECT events.*, clubs.club_name
+                        FROM event_registrations
+                        JOIN events ON event_registrations.event_id = events.id
+                        JOIN clubs ON events.club_id = clubs.id
+                        WHERE event_registrations.user_id = $user_id";
+
+    $registeredEventsResult = $conn->query($registeredEventsSql);
+
+    if ($registeredEventsResult && $registeredEventsResult->num_rows > 0) {
+        $events = [];
+        while ($eventRow = $registeredEventsResult->fetch_assoc()) {
+            $events[] = [
+                'id' => $eventRow['id'],
+                'event_image_path' => htmlspecialchars($eventRow['event_image_path']),
+                'event_title' => $eventRow['event_title'],
+                'start_date' => $eventRow['start_date'],
+                'event_venue' => $eventRow['event_venue'],
+                'club_name' => $eventRow['club_name'],
+            ];
+        }
+        return $events;
+    } else {
+        return [];
+    }
+}
+
+
+
 ?>
