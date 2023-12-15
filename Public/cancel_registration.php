@@ -5,7 +5,6 @@ if (isset($_SESSION['user_id']) && isset($_GET['id'])) {
     $user_id = $_SESSION['user_id'];
     $event_id = $_GET['id'];
 
-    // Add your database connection logic
     require_once('Part/db_controller.php');
 
     // Delete the user's registration for the event
