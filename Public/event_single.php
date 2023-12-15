@@ -148,7 +148,13 @@ function hasPermissionToViewParticipants($user_id, $club_id) {
 
 
             <a href="club_single.php?id=<?php echo $row['club_id']; ?>"><button class="btn">View Club Details</button></a>
+           <?php
+            if (isset($_SESSION["username"])) { ?>
             <a href="register_event.php?id=<?php echo $event_id; ?>"><button class="btn">Register</button></a>
+            <?php } else{ ?>
+                <a href="Login/login.php"><button class="btn">Login to Register</button></a>
+
+            <?php } ?>
 
             <?php
                 if ($userId !== null && hasPermissionToViewParticipants($userId, $row['club_id'])) {

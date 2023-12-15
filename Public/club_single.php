@@ -143,15 +143,22 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
                 <div class="single-container">
 
                     <h2 class="title"><?php echo $row['club_name']; ?></h2>
+            
 
                     <h2 class="subscribe">Member Count <span class="count"><?php echo $member_count ?></span></h2>
                     <a href="#"><button class="btn">Subscribe</button></a>
+
+                   <?php if (isset($_SESSION["username"])) { ?>
 
                     <form method="post" action="join_club.php">
                         <input type="hidden" name="club_id" value="<?php echo $club_id; ?>">
                         <button type="submit" class="btn" name="join_club">Join Club</button>
                     </form>
 
+                    <?php } else{ ?>
+                    <a href="Login/login.php"><button class="btn">Login to Join Club</button></a>
+
+                    <?php } ?>
                     
 
                     <?php 
