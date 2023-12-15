@@ -58,7 +58,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
         // Check if the user has the 'pic' role for this club
         if (hasPicRole($user_id, $club_id, $conn)) {
             // Fetch the list of members for the club
-            $membersSql = "SELECT * FROM memberships WHERE club_id = $club_id";
+            $membersSql = "SELECT * FROM memberships WHERE club_id = $club_id AND role <> 'pic'";
             $membersResult = $conn->query($membersSql);
 
             // Include the header and necessary styles
@@ -68,6 +68,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
             if ($membersResult->num_rows > 0) {
                 echo '<form method="post" action="save_member_changes.php?id=' . $club_id . '">';
+                echo '<input type="hidden" name="club_id" value="' . $club_id . '">';
                 echo '<table>';
                 echo '<tr><th>Username</th><th>Current Role</th><th>Change Role</th></tr>';
 
