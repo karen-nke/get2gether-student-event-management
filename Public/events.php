@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 session_start();
 
@@ -18,7 +20,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
 
 <head>
         <meta charset="UTF-8">
-        <title>Home Page</title>
+        <title>Events</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="style.css">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -46,14 +48,10 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
             <div class="event-container">
 
                 <?php
-                error_reporting(E_ALL);
-                ini_set('display_errors', 1);
-
-                require_once('Part/db_controller.php');
-                require_once('Part/navbar.php');
-
+                
                 $sql = "SELECT events.*, clubs.club_name FROM events
-                        JOIN clubs ON events.club_id = clubs.id";
+                        JOIN clubs ON events.club_id = clubs.id
+                        WHERE events.end_date >= CURDATE()" ;
 
                 $result = $conn->query($sql);
 
@@ -69,6 +67,43 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
                             
                             echo '</div>';
                         echo '</a>';  
+                    }
+                } else {
+                    echo "0 results";
+                }
+
+                
+                ?>
+
+            </div>
+
+        </div>
+
+        <div class="section-container">
+            <p class="title">Past Event</p>
+
+            <div class="event-container">
+
+                <?php
+                
+                $sql = "SELECT events.*, clubs.club_name FROM events
+                        JOIN clubs ON events.club_id = clubs.id
+                        WHERE events.end_date < CURDATE()" ;
+
+                $result = $conn->query($sql);
+
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                       
+                            echo '<div class="event-card">';
+                                echo '<img src="' . htmlspecialchars($row["event_image_path"]) . '" alt="Event Image">';
+                                echo '<h2 class="title">' . $row["event_title"] . '</h2>';
+                                echo '<p class="date">Date & Time: ' . $row["start_date"] . '</p>';
+                                echo '<p class="location">Location: ' . $row["event_venue"] . '</p>';
+                                echo '<p class="location">Club: ' . $row["club_name"] . '</p>';
+                            
+                            echo '</div>';
+            
                     }
                 } else {
                     echo "0 results";
