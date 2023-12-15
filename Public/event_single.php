@@ -10,10 +10,10 @@ require_once('Part/navbar.php');
 
 if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
     $username = $_SESSION['username'];
-    $userId = $_SESSION['user_id'];
+    $user_id = $_SESSION['user_id'];
 } else {
-    // If the user is not logged in, set $userId to null or any default value
-    $userId = null;
+    // If the user is not logged in, set $user_id to null or any default value
+    $user_id = null;
 }
 
 
@@ -37,17 +37,39 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     echo "No event selected";
     exit; // Stop further execution if no event selected
 }
+$club_id = $row['club_id'];
 
 $userRegistered = false; // Default value, user not registered
 
 // Check if the user is registered for the event
-$checkRegistrationSql = "SELECT * FROM event_registrations WHERE user_id = $userId AND event_id = $event_id";
+$checkRegistrationSql = "SELECT * FROM event_registrations WHERE user_id = $user_id AND event_id = $event_id";
 $checkRegistrationResult = $conn->query($checkRegistrationSql);
 
 if ($checkRegistrationResult && $checkRegistrationResult->num_rows > 0) {
     // User is registered for the event
     $userRegistered = true;
 }
+
+if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
+
+    
+    function fetchUserRole($user_id, $club_id) {
+        global $conn;
+    
+        $sql = "SELECT role FROM memberships WHERE user_id = $user_id AND club_id = $club_id";
+        $result = $conn->query($sql);
+    
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['role'];
+        } else {
+            return ""; 
+        }
+    }
+    
+    $userRole = fetchUserRole($user_id, $club_id);
+}
+
 
 
 
@@ -159,6 +181,7 @@ function hasPermissionToViewParticipants($user_id, $club_id) {
             <p class="desc">Club Name: <?= $row["club_name"] ?></p>
             <p class="desc">Contact Email Address: <?= $row["contact_email"] ?></p>
 
+            
 
             <a href="club_single.php?id=<?php echo $row['club_id']; ?>"><button class="btn">View Club Details</button></a>
            <?php
@@ -175,14 +198,27 @@ function hasPermissionToViewParticipants($user_id, $club_id) {
 
             <?php } ?>
 
+            <?php 
+            if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
+                if ($userRole === 'pic'): ?>
+                    <a href="edit_event.php?id=<?php echo $event_id; ?>">
+                        <button class="btn">Edit Events</button>
+                    </a>
+
+
+
+                <?php endif; }?>
+
+
+
             <?php
-                if ($userId !== null && hasPermissionToViewParticipants($userId, $row['club_id'])) {
-                    $eventId = $row['id'];
+                if ($user_id !== null && hasPermissionToViewParticipants($user_id, $row['club_id'])) {
+                    $event_id = $row['id'];
                 
                     // Fetch registered participants
                     $participantsSql = "SELECT users.username FROM event_registrations
                                         JOIN users ON event_registrations.user_id = users.id
-                                        WHERE event_registrations.event_id = $eventId";
+                                        WHERE event_registrations.event_id = $event_id";
                     $participantsResult = $conn->query($participantsSql);
                 
                     if ($participantsResult->num_rows > 0) {

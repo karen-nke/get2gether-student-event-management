@@ -111,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
             echo "
                 <script>
-                alert('Sent Successfully');
+                alert('Event Created Successfully');
                 document.location.href = 'index.php';
                 </script>
             ";
