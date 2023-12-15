@@ -11,7 +11,7 @@ require_once('Part/navbar.php');
 if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
     // User is logged in, you can use the session variables
     $username = $_SESSION['username'];
-    $userId = $_SESSION['user_id'];
+    $user_id = $_SESSION['user_id'];
 
 }
 
@@ -51,22 +51,25 @@ if ($result->num_rows > 0) {
     echo "Club not found";
 }
 
-
-function fetchUserRole($user_id, $club_id) {
-    global $conn;
-
-    $sql = "SELECT role FROM memberships WHERE user_id = $user_id AND club_id = $club_id";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        return $row['role'];
-    } else {
-        return ""; // Assuming an empty string for no role
+if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
+    
+    function fetchUserRole($user_id, $club_id) {
+        global $conn;
+    
+        $sql = "SELECT role FROM memberships WHERE user_id = $user_id AND club_id = $club_id";
+        $result = $conn->query($sql);
+    
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['role'];
+        } else {
+            return ""; 
+        }
     }
+    
+    $userRole = fetchUserRole($user_id, $club_id);
 }
 
-$userRole = fetchUserRole($userId, $club_id);
 
 ?>
 
@@ -149,7 +152,13 @@ $userRole = fetchUserRole($userId, $club_id);
                         <button type="submit" class="btn" name="join_club">Join Club</button>
                     </form>
 
-                    <?php if ($userRole === 'pic'): ?>
+                    
+
+                    <?php 
+
+
+                    if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
+                    if ($userRole === 'pic'): ?>
                         <a href="edit_details.php?id=<?php echo $club_id; ?>">
                             <button class="btn">Edit Details</button>
                         </a>
@@ -157,7 +166,9 @@ $userRole = fetchUserRole($userId, $club_id);
                         <a href="edit_members.php?id=<?php echo $club_id; ?>">
                             <button class="btn">Edit Members</button>
                         </a>
-                    <?php endif; ?>
+                      
+
+                    <?php endif; }?>
 
 
                     <p class="field-name">Club Description</p>
@@ -177,9 +188,7 @@ $userRole = fetchUserRole($userId, $club_id);
                     <div class="event-container">
 
                         <?php
-                            error_reporting(E_ALL);
-                            ini_set('display_errors', 1);
-   
+                    
    
                             $club_id = $row['id']; 
                             $sql = "SELECT events.*, clubs.club_name FROM events
