@@ -29,7 +29,7 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['user_id'])) {
 
 // Get the user details from the session
 $username = $_SESSION['username'];
-$userId = $_SESSION['user_id'];
+$user_id = $_SESSION['user_id'];
 
 // Check if the user has the 'pic' role
 function hasPicRole($user_id, $club_id, $conn) {
@@ -56,7 +56,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
         $clubRow = $clubResult->fetch_assoc();
 
         // Check if the user has the 'pic' role for this club
-        if (hasPicRole($userId, $club_id, $conn)) {
+        if (hasPicRole($user_id, $club_id, $conn)) {
             // Fetch the list of members for the club
             $membersSql = "SELECT * FROM memberships WHERE club_id = $club_id";
             $membersResult = $conn->query($membersSql);

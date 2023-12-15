@@ -11,7 +11,7 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['user_id'])) {
 }
 
 // Get the user details from the session
-$userId = $_SESSION['user_id'];
+$user_id = $_SESSION['user_id'];
 
 if (isset($_GET['id']) && !empty($_GET['id'])) {
     $club_id = $_GET['id'];
@@ -21,7 +21,7 @@ if (isset($_POST['club_id']) && !empty($_POST['club_id'])) {
     $club_id = $_POST['club_id'];
 
     // Check if the user has the 'pic' role for this club
-    $sql = "SELECT role FROM memberships WHERE user_id = $userId AND club_id = $club_id";
+    $sql = "SELECT role FROM memberships WHERE user_id = $user_id AND club_id = $club_id";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -35,11 +35,11 @@ if (isset($_POST['club_id']) && !empty($_POST['club_id'])) {
             if ($membersResult->num_rows > 0) {
                 // Loop through each member and update their role
                 while ($member = $membersResult->fetch_assoc()) {
-                    $userId = $member['user_id'];
-                    $newRole = $_POST['role_change'][$userId];
+                    $user_id = $member['user_id'];
+                    $newRole = $_POST['role_change'][$user_id];
 
                     // Update the role in the database
-                    $updateSql = "UPDATE memberships SET role = '$newRole' WHERE user_id = $userId AND club_id = $club_id";
+                    $updateSql = "UPDATE memberships SET role = '$newRole' WHERE user_id = $user_id AND club_id = $club_id";
                     $conn->query($updateSql);
                 }
 

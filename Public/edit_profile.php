@@ -10,11 +10,11 @@ require_once('Part/navbar.php');
 if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
     // User is logged in, you can use the session variables
     $username = $_SESSION['username'];
-    $userId = $_SESSION['user_id'];
+    $user_id = $_SESSION['user_id'];
 }
 
 // Fetch user details from the database based on user_id
-$sql = "SELECT * FROM users WHERE id = $userId";
+$sql = "SELECT * FROM users WHERE id = $user_id";
 $result = $conn->query($sql);
 
 if ($result && $result->num_rows > 0) {
@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   city = '$city', 
                   state = '$state',
                   bio = '$bio'
-                  WHERE id = $userId";
+                  WHERE id = $user_id";
 
     $updateResult = $conn->query($updateSql);
 
