@@ -27,7 +27,35 @@ if ($result && $result->num_rows > 0) {
 
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get user input from the form
+    // Handle profile image upload
+    $uploadDir = 'uploads/'; // Target directory for profile images
+    $profileImage = $_FILES['profileImage'];
+    $user_id = $_SESSION['user_id']; // Assuming you have the user ID in the session
+
+    if ($profileImage['error'] === UPLOAD_ERR_OK) {
+        // Generate a unique file name based on user ID
+        $newFileName = 'profile_' . $user_id . '.png'; // You can choose your own naming convention
+
+        $uploadFile = $uploadDir . $newFileName;
+
+        if (move_uploaded_file($profileImage['tmp_name'], $uploadFile)) {
+            // Profile image uploaded successfully
+            // Now, you can update the user's profile_image field in the database
+            $updateSql = "UPDATE users SET profile_image = '$uploadFile' WHERE id = $user_id";
+
+            if ($conn->query($updateSql) === TRUE) {
+                echo "Profile image uploaded and user details updated successfully.";
+            } else {
+                echo "Error updating user details: " . $conn->error;
+            }
+        } else {
+            echo "Error uploading the profile image.";
+        }
+    } else {
+        echo "Error uploading the profile image.";
+    }
+
+    // Handle the rest of the user details update (first name, last name, etc.)
     $firstName = $_POST['firstName'];
     $lastName = $_POST['lastName'];
     $gender = $_POST['gender'];
@@ -49,20 +77,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   bio = '$bio'
                   WHERE id = $user_id";
 
-    $updateResult = $conn->query($updateSql);
-
-    if ($updateResult) {
-        // Redirect to the profile page after successful update
+    if ($conn->query($updateSql) === TRUE) {
         header("Location: profile.php");
-        exit();
+        exit(); // Ensure that no further code is executed
     } else {
-        // Handle error or redirect to an error page
-        echo "Error updating user details";
-        exit();
+        echo "Error updating user details: " . $conn->error;
     }
 }
-?>
 
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -79,8 +102,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 
     <div class="page-container">
-        <form action="edit_profile.php" method="post">
+        <form action="edit_profile.php" method="POST" enctype="multipart/form-data"> 
             <h2>Edit Profile</h2>
+
+            <label for="profileImage">Upload Profile Image</label>
+    <input type="file" id="profileImage" name="profileImage">
 
             <label for="firstName">First Name</label>
             <input type="text" id="firstName" name="firstName" value="<?php echo $userDetails['first_name']; ?>">
@@ -111,7 +137,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <textarea id="bio" name="bio"><?php echo $userDetails['bio']; ?></textarea>
 
 
-
             <button type="submit" class="btn">Save Changes</button>
         </form>
     </div>
@@ -119,3 +144,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </body>
 
 </html>
+
+
