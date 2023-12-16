@@ -60,7 +60,7 @@ if (session_status() == PHP_SESSION_NONE) {
                     </li>
 
                     <li>
-                        <a href='#'>
+                        <a href='subscription.php'>
                             <i class='bx bx-bell'></i>
                             <span class='nav-item'>Subscription</span>
                         </a>

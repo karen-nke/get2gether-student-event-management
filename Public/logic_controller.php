@@ -283,5 +283,45 @@ function getRegisteredEvents($user_id, $conn) {
 }
 
 
+function getUpcomingEventsByClub($user_id, $conn) {
+    $upcomingEventsByClub = [];
+
+    // Fetch joined clubs
+    $joinedClubs = getJoinedClubs($user_id, $conn);
+
+    foreach ($joinedClubs as $club) {
+        $club_id = $club['id'];
+        $club_name = $club['club_name'];
+
+        // Fetch upcoming events for the club
+        $upcomingEventsSql = "SELECT events.*, clubs.club_name
+            FROM events
+            JOIN clubs ON events.club_id = clubs.id
+            WHERE events.club_id = $club_id AND events.start_date > NOW()
+            ORDER BY events.start_date DESC
+            LIMIT 5"; // Limit to 5 upcoming events, adjust as needed
+
+        $upcomingEventsResult = $conn->query($upcomingEventsSql);
+
+        if ($upcomingEventsResult && $upcomingEventsResult->num_rows > 0) {
+            $events = [];
+            while ($eventRow = $upcomingEventsResult->fetch_assoc()) {
+                $events[] = [
+                    'id' => $eventRow['id'],
+                    'event_image_path' => htmlspecialchars($eventRow['event_image_path']),
+                    'event_title' => $eventRow['event_title'],
+                    'start_date' => $eventRow['start_date'],
+                    'event_venue' => $eventRow['event_venue'],
+                    'club_name' => $eventRow['club_name'],
+                ];
+            }
+            $upcomingEventsByClub[$club_name] = $events;
+        }
+    }
+
+    return $upcomingEventsByClub;
+    var_dump($upcomingEventsByClub);
+}
+
 
 ?>
