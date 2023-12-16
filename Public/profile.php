@@ -46,7 +46,15 @@ $registeredEvents = getRegisteredEvents($user_id, $conn);
         </div>
 
         <div class="single-container">
-            <h2 class="title"><?= $username; ?></h2>
+        <h2 class="title">
+            <?php
+            if (!empty($userDetails['first_name'])) {
+                echo $userDetails['first_name'] . ' ' . $userDetails['last_name'];
+            } else {
+                echo $username;
+            }
+            ?>
+        </h2>
             <p class="field-name"> Bio </p>
             <p class="desc"><?= $userDetails['bio']; ?></p>
 
