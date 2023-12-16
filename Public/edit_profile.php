@@ -99,11 +99,88 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
+<style>
+
+    .page-container{
+        max-width: 1000px;
+        margin: auto; 
+        padding: 25px; 
+
+    }
+
+    .profile-header {
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center; 
+    }
+
+    .profile-frame {
+        margin-left: auto;
+        border-radius: 50%; 
+        overflow: hidden; 
+        display: inline-block; 
+        margin-bottom: 80px;
+        position: relative;
+        width: 100px; 
+        height: 100px; 
+    }
+
+
+    .image-banner {
+        width: 100%; 
+        height: 100%; 
+        display: block; 
+        object-fit: cover; 
+    }
+    h2 {
+        margin: 0;
+        margin-top:-50px;
+
+    }
+
+    .btn {
+    display: block; /* Full width of its parent */
+    width: 100%; /* Make the button take full width of its container */
+    max-width: 500px; /* Set a max-width to ensure it doesn't get too large on wider screens */
+    margin: 20px auto; /* Center the button and add some space around it */
+    padding: 15px 25px; /* Padding for better touch area and aesthetics */
+    background-color: #1D86C5;
+    color: white;
+    border: none;
+    border-radius: 5px; /* Slightly rounded corners */
+    font-size: 16px; /* Adjust font size as needed */
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    }
+
+    .btn:hover {
+        background-color: #1574A1; /* Slightly darker shade for hover effect */
+    }
+
+    @media only screen and (max-width: 1200px) {
+        .page-container{
+            margin-left:80px;
+        }
+
+
+
+    }   
+
+    </style>
+
+
+
 <body>
 
     <div class="page-container">
         <form action="edit_profile.php" method="POST" enctype="multipart/form-data"> 
+        <div class="profile-header">
             <h2>Edit Profile</h2>
+            <div class="profile-frame">
+                <img src="<?php echo $userDetails['profile_image']; ?>" onerror="this.src='Image/Logo_Placeholder.png'" alt="profile-logo" class="image-banner">
+            </div>
+        </div>
+
 
             <label for="profileImage">Upload Profile Image</label>
     <input type="file" id="profileImage" name="profileImage">

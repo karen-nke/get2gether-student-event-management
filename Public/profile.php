@@ -58,9 +58,8 @@ $organizedEvents = getOrganizedEvents($user_id, $conn);
     .left-container {
         margin-left:80px;
         margin-top:100px;
-        flex:2;
         padding: 20px;
-        position: relative; /* Added position relative for absolute positioning */
+        position: relative; 
     }
 
     .left-container img {
@@ -86,33 +85,38 @@ $organizedEvents = getOrganizedEvents($user_id, $conn);
         color: #DDAB58;
         text-align: center;
         font-family: Open Sans;
-        font-size: 24px;
+        font-size: 18px;
         font-style: normal;
         font-weight: 400;
         line-height: normal;
-        margin-left:-85px;
+   
      
     }
 
     .right-container {
-        flex: 2;
+        margin-left:100px;
+        flex: 1;
         padding: 20px;
     }
 
    
-.profile-frame {
-    border-radius: 50%; /* Create a round shape */
-    overflow: hidden; /* Clip content outside the frame */
-    display: inline-block; /* Allow the frame to adjust to its content */
+    .profile-frame {
+    border-radius: 50%; 
+    overflow: hidden; 
+    display: inline-block; 
     margin-bottom: 80px;
-}
+    position: relative;
+    max-width: 660px; 
+    max-height: 650px; 
+    }
 
-/* Style for the profile image inside the frame */
-.image-banner {
-    width: 100%; /* Ensure the image takes up the full width of the frame */
-    height: auto; /* Allow the image to maintain its aspect ratio */
-    display: block; /* Remove any inline spacing */
-}
+
+    .image-banner {
+        width: 100%; 
+        height: 100%; 
+        display: block; 
+        object-fit: cover; 
+    }
 
 
     .user-info {
@@ -204,6 +208,10 @@ $organizedEvents = getOrganizedEvents($user_id, $conn);
         }
 
     @media only screen and (max-width: 1000px) {
+
+        .right-container{
+            margin-left: 0px;
+        }
   
         .subscribed-clubs,
         .upcoming-activity {
@@ -217,7 +225,6 @@ $organizedEvents = getOrganizedEvents($user_id, $conn);
 
         .edit-button{
             font-size: 18px;
-            margin: 0px;
 
         }
 
@@ -232,8 +239,8 @@ $organizedEvents = getOrganizedEvents($user_id, $conn);
 <div class="container">
             <div class="left-container">
             <div class="profile-frame">
-    <img src="<?php echo $userDetails['profile_image']; ?>" onerror="this.src='Image/Logo_Placeholder.png'" alt="profile-logo" class="image-banner">
-</div>
+                <img src="<?php echo $userDetails['profile_image']; ?>" onerror="this.src='Image/Logo_Placeholder.png'" alt="profile-logo" class="image-banner">
+            </div>
 
                 <a href="edit_profile.php"><button class="edit-button">Edit Profile</button></a>
             </div>
@@ -263,7 +270,8 @@ $organizedEvents = getOrganizedEvents($user_id, $conn);
             <?php require_once('Part/registered_event_section.php'); ?>
         </div>
 
-        
+  
+
   
 
         <div class="create-event-section">
