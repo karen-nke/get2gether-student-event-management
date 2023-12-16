@@ -151,67 +151,65 @@ if(isset($_POST['check'])){
 }
 
 
-//if user click login button
-if(isset($_POST['login'])){
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $password = mysqli_real_escape_string($conn, $_POST['password']);
-    $check_email = "SELECT * FROM users WHERE email = '$email'";
-    $res = mysqli_query($conn, $check_email);
+        //if user click login button
+        if(isset($_POST['login'])){
+            $email = mysqli_real_escape_string($conn, $_POST['email']);
+            $password = mysqli_real_escape_string($conn, $_POST['password']);
+            $check_email = "SELECT * FROM users WHERE email = '$email'";
+            $res = mysqli_query($conn, $check_email);
 
-   if(mysqli_num_rows($res) > 0){
-       $fetch = mysqli_fetch_assoc($res);
-       $fetch_pass = $fetch['password'];
+            if(mysqli_num_rows($res) > 0){
+                $fetch = mysqli_fetch_assoc($res);
+                $fetch_pass = $fetch['password'];
 
-       if($password == $fetch_pass){
-           $status = $fetch['status'];
+                if(password_verify($password, $fetch_pass)){
+                    $status = $fetch['status'];
 
-            if($status == 'verified'){
-                $_SESSION['email'] = $email;
-                $_SESSION['password'] = $password;
-                $_SESSION['name'] = $name;
-                $_SESSION['user_id'] = $fetch['id'];
-                $_SESSION['username'] = $fetch['username'];
-              
-
-                header('location: ../index.php');
-                
-           }else{
-               $info = "It's look like you haven't still verify your email - $email";
-               $_SESSION['info'] = $info;
-               $code = rand(999999, 111111);
-               $insert_codee = "UPDATE users SET code = $code WHERE email = '$email'";
-               $run_queryy =  mysqli_query($conn, $insert_codee);
-               header('location: imail_verification.php');
-               if($run_queryy){
-  
-                $maill->Body = "<h1>Your verification code is $code</h1>";
-                //Add recipient
-                $maill->addAddress($email);
-                //Finally send email
-                if ( $maill->send() ) {
-                $info = "It's look like you haven't still verify your email<br>We've sent a verification code to your email - $email";
-                        $_SESSION['info'] = $info;
+                    if($status == 'verified'){
                         $_SESSION['email'] = $email;
                         $_SESSION['password'] = $password;
-                        header('location: imail_verification.php');
-                        exit();
-                }else{
-                $errors['otp-error'] = "Failed while sending code!";
-                header('location: imail_verification.php');
-                        exit();
-                }
+                        $_SESSION['name'] = $name;
+                        $_SESSION['user_id'] = $fetch['id'];
+                        $_SESSION['username'] = $fetch['username'];
 
-               }			
-                //Closing smtp connection
-                $maill->smtpClose();
-                        } 
-                    }else{
-                        $errors['email'] = "Incorrect email or password!";
-                    }
-                }else{
-                    $errors['email'] = "It's look like you're not yet a member! Click Register Here! to sign up";
+                        header('location: ../index.php');
+                        
+                    } else {
+                        $info = "It's look like you haven't still verified your email - $email";
+                        $_SESSION['info'] = $info;
+                        $code = rand(999999, 111111);
+                        $insert_codee = "UPDATE users SET code = $code WHERE email = '$email'";
+                        $run_queryy =  mysqli_query($conn, $insert_codee);
+                        header('location: imail_verification.php');
+                        if($run_queryy){
+        
+                            $maill->Body = "<h1>Your verification code is $code</h1>";
+                            // Add recipient
+                            $maill->addAddress($email);
+                            // Finally send email
+                            if ($maill->send()) {
+                                $info = "It's look like you haven't still verified your email<br>We've sent a verification code to your email - $email";
+                                $_SESSION['info'] = $info;
+                                $_SESSION['email'] = $email;
+                                $_SESSION['password'] = $password;
+                                header('location: imail_verification.php');
+                                exit();
+                            } else {
+                                $errors['otp-error'] = "Failed while sending code!";
+                                header('location: imail_verification.php');
+                                exit();
+                            }
+                        }
+                        // Closing smtp connection
+                        $maill->smtpClose();
+                    } 
+                } else {
+                    $errors['email'] = "Incorrect email or password!";
                 }
+            } else {
+                $errors['email'] = "It's look like you're not yet a member! Click Register Here! to sign up";
             }
+        }
 
 
             //if user click continue button in forgot password form
