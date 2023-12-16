@@ -67,7 +67,7 @@ if(isset($_POST['Continue'])){
         $errors['password'] = "Confirm password not matched!";
     }
     if (!preg_match('/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*\W).{8,}$/', $password)) {
-        $errors['password'] = "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 symbol.";
+        $errors['password'] = "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, 1 symbol, and be at least 8 characters long.";
     }
 
     $email_check = "SELECT * FROM users WHERE email = '$email'";
