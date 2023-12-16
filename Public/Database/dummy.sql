@@ -18,3 +18,23 @@ VALUES
   ('Food Festival: Taste of the World', 'Outdoor Plaza, Downtown', '15:00', '22:00', '2023-12-04', '2023-12-04', 'Image/Event4.png', 'Savor delicious dishes from around the globe in one place.', 1),
   ('Startup Networking Mixer', 'Co-Working Space, Tech Hub', '17:30', '20:30', '2023-12-05', '2023-12-05', 'Image/Event5.png', 'Connect with fellow entrepreneurs and investors in the startup ecosystem.', 2),
   ('Music Festival: Harmony Beats', 'Main Stage, City Park', '12:00', '22:00', '2023-12-06', '2023-12-06', 'Image/Event6.png', 'Experience a day filled with diverse musical performances and positive vibes.', 3);
+
+
+-- Dummy data for club 1
+INSERT INTO `events` (`event_title`, `event_venue`, `start_time`, `end_time`, `start_date`, `end_date`, `event_image_path`, `event_description`, `club_id`) VALUES
+('Tech Expo 2024', 'Innovation Hall', '12:00:00', '14:00:00', '2023-12-20', '2023-12-20', 'Image/Event1.png', 'Explore the latest technological innovations and trends.', 1),
+('Code Jam Championship', 'Coding Arena', '15:00:00', '17:00:00', '2023-12-22', '2023-12-22', 'Image/Event2.png', 'Compete in a coding challenge and showcase your skills.', 1),
+('Startup Networking Night', 'Entrepreneurship Hub', '18:00:00', '20:00:00', '2023-12-25', '2023-12-25', 'Image/Event3.png', 'Connect with fellow entrepreneurs and investors.', 1);
+
+-- Dummy data for club 2
+INSERT INTO `events` (`event_title`, `event_venue`, `start_time`, `end_time`, `start_date`, `end_date`, `event_image_path`, `event_description`, `club_id`) VALUES
+('Photography Exhibition', 'Art Gallery', '13:00:00', '15:00:00', '2023-12-21', '2023-12-21', 'Image/Event4.png', 'Showcasing stunning photography from our club members.', 2),
+('Camera Techniques Workshop', 'Studio A', '16:00:00', '18:00:00', '2023-12-23', '2023-12-23', 'Image/Event5.png', 'Learn advanced photography techniques from experts.', 2),
+('Nature Photography Expedition', 'Outdoor Locations', '19:00:00', '21:00:00', '2023-12-26', '2023-12-26', 'Image/Event6.png', 'Explore and capture the beauty of nature through photography.', 2);
+
+-- Dummy data for club 3
+INSERT INTO `events` (`event_title`, `event_venue`, `start_time`, `end_time`, `start_date`, `end_date`, `event_image_path`, `event_description`, `club_id`) VALUES
+('Sports Fest 2024', 'Sports Complex', '14:00:00', '16:00:00', '2023-12-22', '2023-12-22', 'Image/Event1.png', 'An exciting day of sports competitions and games.', 3),
+('Fitness Challenge Day', 'Gymnasium', '17:00:00', '19:00:00', '2023-12-24', '2023-12-24', 'Image/Event2.png', 'Join us for a day of fitness challenges and workouts.', 3),
+('Soccer Tournament', 'Soccer Field', '20:00:00', '22:00:00', '2023-12-27', '2023-12-27', 'Image/Event3.png', 'Compete in our annual soccer tournament.', 3);
+
