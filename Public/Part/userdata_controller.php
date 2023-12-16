@@ -134,7 +134,7 @@ if(isset($_POST['check'])){
         $email = $fetch_data['email'];
         $code = 0;
         $status = 'verified';
-        $update_otp = "UPDATE users SET code = $code, status = '$status' WHERE code = $fetch_code";
+        $update_otp = "UPDATE users SET code = '$code', status = '$status' WHERE code = '$fetch_code'";
         $update_res = mysqli_query($conn, $update_otp);
         if($update_res){
             $_SESSION['name'] = $name;
