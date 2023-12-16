@@ -285,9 +285,9 @@ if(isset($_POST['login'])){
                     
                         if ($password !== $CPassword) {
                             $errors['password'] = "Confirm password not matched!";
-                        } elseif (!preg_match('/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*\W).{8,}$/', $password)) {
+                        } elseif (!preg_match('/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*\W).{8,}$/', $password))  {
                             // Check for password complexity
-                            $errors['password'] = "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 symbol.";
+                            $errors['password'] = "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, 1 symbol, and be at least 8 characters long.";
                         } else {
                             $code = 0;
                             $email = $_SESSION['email']; // Getting this email using session
