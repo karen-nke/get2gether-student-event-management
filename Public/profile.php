@@ -58,14 +58,6 @@ $organizedEvents = getOrganizedEvents($user_id, $conn);
                 <div class="club-position">Club Position</div>
                 <div class="description">Description</div>
                 <div class="user-description"><?php echo $userDetails['bio'];?> </div>
-                <div class="subscribed-clubs" >
-                    Subscribed Clubs &nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="#" id="subscribedPopUp"> <!-- This is the clickable element -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="arrow" viewBox="0 0 23 24" fill="none">
-                            <path d="M3 20.7762L18.6168 13.4593C20.4611 12.5951 20.4611 11.1811 18.6168 10.317L3 3" stroke="#292D32" stroke-width="5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </a>
-                </div>
                 <div class="upcoming-activity">Upcoming Activity &nbsp;&nbsp;<svg xmlns="http://www.w3.org/2000/svg"  class="arrow" viewBox="0 0 23 24" fill="none">
                     <path d="M3 20.7762L18.6168 13.4593C20.4611 12.5951 20.4611 11.1811 18.6168 10.317L3 3" stroke="#292D32" stroke-width="5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
@@ -167,7 +159,7 @@ $organizedEvents = getOrganizedEvents($user_id, $conn);
             ?>
         </h2>
             <p class="field-name"> Bio </p>
-            <p class="desc"><?= $userDetails['bio']; ?></p>
+            <p class="desc"><?= $userDetails['bio'];  ?></p>
 
             <a href="edit_profile.php"><button class="btn">Edit Profile</button></a>
 

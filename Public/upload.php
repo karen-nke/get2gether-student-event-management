@@ -36,13 +36,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $eventDescription = $_POST['eventDescription'];
 
         // Insert data into the database
-        $sql = "INSERT INTO events (club_id, event_title, event_venue, start_time, end_time, start_date, end_date, event_image_path, event_description)
-                VALUES ('$clubId', '$eventTitle', '$eventVenue', '$startTime', '$endTime', '$startDate', '$endDate', '$uploadFile', '$eventDescription')";
+        if (isset($_SESSION['user_id'])) {
+            $user_id = $_SESSION['user_id'];
 
-        if ($conn->query($sql) === TRUE) {
-            echo "Event created successfully";
+            // Insert data into the database
+            $sql = "INSERT INTO events (club_id, event_title, event_venue, start_time, end_time, start_date, end_date, event_image_path, event_description, user_id)
+                    VALUES ('$clubId', '$eventTitle', '$eventVenue', '$startTime', '$endTime', '$startDate', '$endDate', '$uploadFile', '$eventDescription', '$user_id')";
+
+            if ($conn->query($sql) === TRUE) {
+                echo "Event created successfully";
+            } else {
+                echo "Error: " . $sql . "<br>" . $conn->error;
+            }
         } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            echo "User session not found. Please log in.";
         }
     } else {
         echo "Error uploading the file.";

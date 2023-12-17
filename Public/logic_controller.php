@@ -324,35 +324,31 @@ function getUpcomingEventsByClub($user_id, $conn) {
 }
 
 
-    function getOrganizedEvents($user_id, $conn) {
-        $organizedEventsSql = "SELECT events.*, clubs.club_name
-                            FROM events
-                            JOIN clubs ON events.club_id = clubs.id
-                            WHERE events.id IN (
-                                SELECT DISTINCT event_id
-                                FROM event_registrations
-                                WHERE user_id = $user_id
-                            )";
+function getOrganizedEvents($user_id, $conn) {
+    $organizedEventsSql = "SELECT events.*, clubs.club_name
+                        FROM events
+                        JOIN clubs ON events.club_id = clubs.id
+                        WHERE events.user_id = $user_id";
 
-        $organizedEventsResult = $conn->query($organizedEventsSql);
+    $organizedEventsResult = $conn->query($organizedEventsSql);
 
-        if ($organizedEventsResult && $organizedEventsResult->num_rows > 0) {
-            $events = [];
-            while ($eventRow = $organizedEventsResult->fetch_assoc()) {
-                $events[] = [
-                    'id' => $eventRow['id'],
-                    'event_image_path' => htmlspecialchars($eventRow['event_image_path']),
-                    'event_title' => $eventRow['event_title'],
-                    'start_date' => $eventRow['start_date'],
-                    'event_venue' => $eventRow['event_venue'],
-                    'club_name' => $eventRow['club_name'],
-                ];
-            }
-            return $events;
-        } else {
-            return [];
+    if ($organizedEventsResult && $organizedEventsResult->num_rows > 0) {
+        $events = [];
+        while ($eventRow = $organizedEventsResult->fetch_assoc()) {
+            $events[] = [
+                'id' => $eventRow['id'],
+                'event_image_path' => htmlspecialchars($eventRow['event_image_path']),
+                'event_title' => $eventRow['event_title'],
+                'start_date' => $eventRow['start_date'],
+                'event_venue' => $eventRow['event_venue'],
+                'club_name' => $eventRow['club_name'],
+            ];
         }
+        return $events;
+    } else {
+        return [];
     }
+}
 
 
 
