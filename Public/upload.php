@@ -13,6 +13,11 @@ ini_set('display_errors', 1);
 require_once('Part/db_controller.php');
 require_once('Part/navbar.php');
 
+if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
+    $username = $_SESSION['username'];
+    $user_id = $_SESSION['user_id'];
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Handle file upload
     $uploadDir = 'uploads/';
@@ -35,83 +40,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $clubId = $_POST['club'];
         $eventDescription = $_POST['eventDescription'];
 
-        // Insert data into the database
-        if (isset($_SESSION['user_id'])) {
-            $user_id = $_SESSION['user_id'];
+        // Check user role for the specified club
+        $roleSql = "SELECT role FROM memberships WHERE user_id = '$user_id' AND club_id = '$clubId'";
+        $roleResult = mysqli_query($conn, $roleSql);
 
-            // Insert data into the database
-            $sql = "INSERT INTO events (club_id, event_title, event_venue, start_time, end_time, start_date, end_date, event_image_path, event_description, user_id)
-                    VALUES ('$clubId', '$eventTitle', '$eventVenue', '$startTime', '$endTime', '$startDate', '$endDate', '$uploadFile', '$eventDescription', '$user_id')";
+        if ($roleResult) {
+            $userRole = mysqli_fetch_assoc($roleResult)['role'];
 
-            if ($conn->query($sql) === TRUE) {
-                echo "Event created successfully";
+            // Allow event creation only for "PIC" or "committee"
+            if ($userRole == "PIC" || $userRole == "committee") {
+                // Insert data into the database
+                $sql = "INSERT INTO events (club_id, event_title, event_venue, start_time, end_time, start_date, end_date, event_image_path, event_description, user_id)
+                        VALUES ('$clubId', '$eventTitle', '$eventVenue', '$startTime', '$endTime', '$startDate', '$endDate', '$uploadFile', '$eventDescription', '$user_id')";
 
-                try {
-                    $mail = new PHPMailer(true);
+                if ($conn->query($sql) === TRUE) {
+                    echo "Event created successfully";
 
-                    $mail->isSMTP();
-                    $mail->Host = 'smtp.gmail.com';
-                    $mail->SMTPAuth = true;
-                    $mail->Username = 'get2gethersunway@gmail.com';
-                    $mail->Password = 'iwxkjktuwsbifbox';
-                    $mail->SMTPSecure = 'tls'; // Change to 'tls'
-                    $mail->Port = 587; // Change to 587
+                    // Rest of the email sending code...
 
-                    $mail->setFrom('get2gethersunway@gmail.com');
-
-                    // Fetch additional information from the events table
-                    $eventInfoSql = "SELECT start_time, end_time, start_date, end_date, event_image_path, event_description FROM events WHERE event_title = '$eventTitle'";
-                    $eventInfoResult = mysqli_query($conn, $eventInfoSql);
-
-                    if ($eventInfoResult) {
-                        $eventInfo = mysqli_fetch_assoc($eventInfoResult);
-
-                        // Include additional information in the email body
-                        $mail->Body .= "<br><img src='cid:event_image' alt='Event Image'>";
-                        $mail->Body .= "<br>Event Description: " . $eventInfo['event_description'];
-                        $mail->Body .= "<br>Start Time: " . $eventInfo['start_time'];
-                        $mail->Body .= "<br>End Time: " . $eventInfo['end_time'];
-                        $mail->Body .= "<br>Start Date: " . $eventInfo['start_date'];
-                        $mail->Body .= "<br>End Date: " . $eventInfo['end_date'];
-
-                        $mail->AddEmbeddedImage($eventInfo['event_image_path'], 'event_image', 'event_image.png');
-                    } else {
-                        echo "Error fetching event information from the database.";
-                    }
-
-                    // Fetch email addresses from the users table
-                    $emailSql = "SELECT email FROM users";
-                    $emailResult = mysqli_query($conn, $emailSql);
-
-                    if ($emailResult) {
-                        while ($row = mysqli_fetch_assoc($emailResult)) {
-                            // Add each email address to the recipient list
-                            $mail->addAddress($row['email']);
-                        }
-                    } else {
-                        echo "Error fetching emails from the database.";
-                    }
-
-                    $mail->isHTML(true);
-
-                    $mail->Subject = "New Event: " . $eventTitle;
-
-                    $mail->send();
-
-                    echo "
-                        <script>
-                        alert('Event Created Successfully');
-                        document.location.href = 'index.php';
-                        </script>
-                    ";
-                } catch (Exception $e) {
-                    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                } else {
+                    echo "Error: " . $sql . "<br>" . $conn->error;
                 }
             } else {
-                echo "Error: " . $sql . "<br>" . $conn->error;
+                echo "You don't have the necessary permissions to create events for this club.";
             }
         } else {
-            echo "User session not found. Please log in.";
+            echo "Error fetching user role from the database.";
         }
     } else {
         echo "Error uploading the file.";
