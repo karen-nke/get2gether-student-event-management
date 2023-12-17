@@ -29,6 +29,7 @@ if ($result && $result->num_rows > 0) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Handle profile image upload
     $uploadDir = 'uploads/'; // Target directory for profile images
+
     $profileImage = $_FILES['profileImage'];
     $user_id = $_SESSION['user_id']; // Assuming you have the user ID in the session
 
