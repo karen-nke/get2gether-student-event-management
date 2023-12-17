@@ -60,6 +60,31 @@ $organizedEvents = getOrganizedEvents($user_id, $conn);
             </h2>
             <p class="field-name"> Bio </p>
             <p class="desc"><?= $userDetails['bio']; ?></p>
+
+            <?php
+                $joinedClubsWithRole = getJoinedClubsWithRole($user_id, $conn);
+
+                if (!empty($joinedClubsWithRole)) {
+                    echo '<p class="field-name"> Roles </p>';
+                    
+                    foreach ($joinedClubsWithRole as $club) { ?>
+
+                        <a href="club_single.php?id=<?= $club['id']; ?>"> 
+                        <p class ="desc"><?= $club['club_name'] . ' - ' . $club['role']; ?> </p>
+                        </a>
+                        
+    
+
+                <?php        
+                    }
+                    
+                } 
+            ?>
+
+            
+
+            
+
             <a href="edit_profile.php"><button class="btn">Edit Profile</button></a>
         </div>  
         

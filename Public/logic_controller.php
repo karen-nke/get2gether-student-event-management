@@ -350,6 +350,26 @@ function getOrganizedEvents($user_id, $conn) {
     }
 }
 
+function getJoinedClubsWithRole($user_id, $conn)
+{
+    $joinedClubs = [];
+
+    $sql = "SELECT clubs.id, clubs.club_name, memberships.role
+            FROM clubs
+            JOIN memberships ON clubs.id = memberships.club_id
+            WHERE memberships.user_id = '$user_id' 
+            AND (memberships.role = 'pic' OR memberships.role = 'committee')";
+
+    $result = mysqli_query($conn, $sql);
+
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $joinedClubs[] = $row;
+        }
+    }
+
+    return $joinedClubs;
+}
 
 
 ?>
