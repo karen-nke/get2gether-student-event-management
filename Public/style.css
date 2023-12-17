@@ -5,6 +5,12 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, SansSerif;
   }
 
+  .page-container{
+    max-width: 1300px;
+    margin:auto;
+    padding:25px
+}
+
 
 
   .logo-img{
@@ -448,6 +454,196 @@ color: #1D294F;
 
 a:hover {
 color: #FF7008;
+}
+
+
+/*profile page*/
+.profile-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.left-container {
+  margin-left:80px;
+  margin-top:100px;
+  padding: 20px;
+  position: relative; 
+}
+
+.left-container img {
+  width: 100%;
+  height: 100%;
+  display: block; /* Fix for inline alignment issue */
+}
+
+.edit-button {
+  cursor: pointer;
+  position: absolute; /* Position absolute for centering */
+  left: 50%;
+  transform: translateX(-50%); /* Centering using translateX */
+  bottom: 20px; /* Adjust as needed */
+  padding: 10px;
+  padding-left: 40px;
+  padding-right:40px;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  border-radius: 8px;
+  background: #1D294F;
+  color: #DDAB58;
+  text-align: center;
+  font-family: Open Sans;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+
+}
+
+.right-container {
+  margin-left:100px;
+  flex: 1;
+  padding: 20px;
+}
+
+
+.profile-frame {
+border-radius: 50%; 
+overflow: hidden; 
+display: inline-block; 
+margin-bottom: 80px;
+position: relative;
+max-width: 660px; 
+max-height: 650px; 
+}
+
+
+.image-banner {
+  width: 100%; 
+  height: 100%; 
+  display: block; 
+  object-fit: cover; 
+}
+
+
+.user-info {
+  color: var(--White, #3C0E0E);
+  font-family: Open Sans;
+  font-size: 44px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin-top: 120px;
+}
+
+.club-position{
+  color: #000;
+  font-family: Open Sans;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+
+}
+.description {
+  margin-top: 45px;
+  color: #000;
+  font-family: Open Sans;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  
+}
+
+.user-description{
+  color: var(--Gray-600, #7E7E7E);
+  font-family: Open Sans;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-bottom: 25px;
+}
+
+.subscribed-clubs,
+.upcoming-activity {
+  margin-bottom: 10px;
+  color: #000;
+  font-family: Open Sans;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.arrow{
+  padding-top: 8px;
+  height:20px;
+  width:21px;
+}
+
+.create-event-section{
+  margin-top: -20px;
+  margin-bottom: 120px;
+}
+
+    /* Styles for the pop-up */
+    #popupSubscribe {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+  }
+
+  /* Styles for the overlay background */
+  #overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+  }
+
+  .registered-event-section{
+    margin-top: 130px;
+  }
+
+@media only screen and (max-width: 1000px) {
+
+  .right-container{
+      margin-left: 0px;
+  }
+
+  .subscribed-clubs,
+  .upcoming-activity {
+      display: flex;
+      align-items: center; /* Align text and arrow vertically */
+  }
+
+  .arrow {
+      margin-left: 10px; /* Adjust the space between text and arrow */
+  }
+
+  .edit-button{
+      font-size: 18px;
+
+  }
+
+
 }
 
 

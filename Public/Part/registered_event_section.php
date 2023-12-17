@@ -32,9 +32,8 @@
     .section-container{
         display:flex;
         flex-direction:column;
-        margin:25px;
         margin-left:80px;
-        margin-top: -120px;
+        margin-top: 120px;
         background: rgba(242, 242, 242, 0.40);
     }
 
