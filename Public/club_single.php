@@ -80,7 +80,7 @@ $upcomingEvents = fetchUpcomingEvents($club_id, $conn);
             <?php } ?>
 
             <?php if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
-                if ($userRole === 'pic' || $userRole === 'committee'): ?>
+                if ($userRole === 'pic'): ?>
                     <a href="edit_details.php?id=<?php echo $club_id; ?>">
                         <button class="btn">Edit Details</button>
                     </a>
@@ -89,6 +89,7 @@ $upcomingEvents = fetchUpcomingEvents($club_id, $conn);
                     </a>
             <?php endif;
             } ?>
+
 
             <p class="field-name">Club Description</p>
             <p class="desc"><?php echo $clubDetails['description']; ?></p>
