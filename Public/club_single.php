@@ -66,12 +66,16 @@ $upcomingEvents = fetchUpcomingEvents($club_id, $conn);
 
             <h2 class="subscribe">Member Count <span class="count"><?php echo $member_count ?></span></h2>
 
-            <?php if (isset($_SESSION["username"])) { ?>
-                <form method="post" action="join_club.php" style="all: initial;">
-                    <input type="hidden" name="club_id" value="<?php echo $club_id; ?>">
-                    <button type="submit" class="btn" name="join_club">Join Club</button>
-                </form>
-                <?php } else { ?>
+            <?php if (isset($_SESSION["username"])) { 
+                if ($userRole === 'pic' || $userRole === 'committee'): ?>
+                    <button class="btn">You already part of the club</button>
+                <?php else: ?>
+                    <form method="post" action="join_club.php" style="all: initial;">
+                        <input type="hidden" name="club_id" value="<?php echo $club_id; ?>">
+                        <button type="submit" class="btn" name="join_club">Join Club</button>
+                    </form>
+                <?php endif; ?>
+            <?php } else { ?>
                 <a href="Login/login.php"><button class="btn">Login to Join Club</button></a>
             <?php } ?>
 
