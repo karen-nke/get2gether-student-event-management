@@ -67,7 +67,7 @@ $upcomingEvents = fetchUpcomingEvents($club_id, $conn);
             <h2 class="subscribe">Member Count <span class="count"><?php echo $member_count ?></span></h2>
 
             <?php if (isset($_SESSION["username"])) { ?>
-                <form method="post" action="join_club.php">
+                <form method="post" action="join_club.php" style="all: initial;">
                     <input type="hidden" name="club_id" value="<?php echo $club_id; ?>">
                     <button type="submit" class="btn" name="join_club">Join Club</button>
                 </form>
