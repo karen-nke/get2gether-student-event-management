@@ -27,14 +27,23 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['search_term'])) {
         if ($result->num_rows > 0) {
             // Display club search results
             echo '<div class="page-container">';
-            echo '<h2>Search Results</h2>';
+            echo '<div class="section-container">';
+                echo '<div class="image-container">';
+                echo '<img src="Image/Logo_Banner.png" class="image-banner" alt="Logo">';
+                echo '</div>';
+
+            echo '<p class="title">Search Results</p>';
             while ($row = $result->fetch_assoc()) {
-                echo '<div class="club-result">';
-                echo '<h3>' . $row['club_name'] . '</h3>';
+                //echo '<div class="event-container">';
+                echo '<div class="event-card">';
+                echo '<img src="' . htmlspecialchars($row["profile_image"]) . '" alt="Event Image">';
+                echo '<h2>' . $row['club_name'] . '</h2>';
                 echo '<p>' . $row['description'] . '</p>';
-                echo '<a href="club_single.php?id=' . $row['id'] . '">View Club</a>';
+                echo '<a href="club_single.php?id=' . $row['id'] . '"><button class="btn">View</button></a>';
+                //echo '</div>';
                 echo '</div>';
             }
+            echo '</div>';
             echo '</div>';
         } else {
             echo '<div class="page-container">';
@@ -51,7 +60,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['search_term'])) {
         if ($result->num_rows > 0) {
             // Display event search results
             echo '<div class="page-container">';
-            echo '<h2>Search Results</h2>';
+            echo '<div class="section-container">';
+                echo '<div class="image-container">';
+                echo '<img src="Image/Logo_Banner.png" class="image-banner" alt="Logo">';
+                echo '</div>';
+
+            echo '<p class="title">Search Results</p>';
             while ($row = $result->fetch_assoc()) {
                 echo '<a href="event_single.php?id=' . $row["id"] . '">';
                 echo '<div class="event-card">';

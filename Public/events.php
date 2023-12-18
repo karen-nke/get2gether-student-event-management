@@ -36,12 +36,10 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
             <img src="Image/Logo_Banner.png" class="image-banner" alt="Communication Badge">
         </div>
 
-        <p class="title">Search Events</p>
-
         <form method="get" action="search_results.php">
-            <label for="search_term">Search Term:</label>
+            <label for="search_term">Search Events</label>
             <input type="text" name="search_term" id="search_term" required>
-            <button type="submit">Search</button>
+            <button type="submit" class ="btn">Search</button>
         </form>
 
         <?php

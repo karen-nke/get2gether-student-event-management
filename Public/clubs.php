@@ -36,12 +36,14 @@ $clubs = getAllClubs($conn);
 
 <body>     
     <div class="page-container">
-    <p class ="title">Search Club</p>
+        <div class="image-container">
+            <img src="Image/Logo_Banner.png" class="image-banner" alt="Logo">
+        </div>
 
         <form method="get" action="search_results.php">
-            <label for="search_term">Search Term:</label>
+            <label for="search_term">Search Club:</label>
             <input type="text" name="search_term" id="search_term" required>
-            <button type="submit">Search</button>
+            <button type="submit" class="btn">Search</button>
         </form>
 
         <div class ="section-container">
