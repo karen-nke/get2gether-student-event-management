@@ -99,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register_event'])) {
             <p class="desc">Contact Email Address: <?php echo $eventDetails["contact_email"]; ?></p>
         </div>
 
-        <form method="post" action="">
+        <form method="post" action="" style="all: initial;">
             <button type="submit" class="btn" name="register_event">Confirm Registration</button>
         </form>
     </div>
