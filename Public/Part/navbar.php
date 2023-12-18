@@ -61,11 +61,20 @@ if (session_status() == PHP_SESSION_NONE) {
 
                     <li>
                         <a href='subscription.php'>
-                            <i class='bx bx-bell'></i>
+                            <i class='bx bx-group'></i>
                             <span class='nav-item'>Subscription</span>
                         </a>
                         <span class='tooltip'>Subscription</span>
+                     </li>
+
+                    <li>
+                        <a href='notification.php'>
+                            <i class='bx bx-bell'></i>
+                            <span class='nav-item'>Notification</span>
+                        </a>
+                        <span class='tooltip'>Notification</span>
                     </li>
+
 
                     <li>
                         <a href='Login/logout.php'>
