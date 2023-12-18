@@ -106,6 +106,21 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
                         <a href="edit_event.php?id=<?php echo $event_id; ?>">
                             <button class="btn">Edit Events</button>
                         </a>
+
+                       
+                        <form id="cancelEventForm" method="post" action="cancel_event.php" style="all: initial;">
+                            <input type="hidden" name="event_id" value="<?php echo $event_id; ?>">
+                            <button type="submit" name="cancel_event" class="btn" onclick="confirmCancellation()">Cancel Event</button>
+                        </form>
+
+                        <script>
+                            function confirmCancellation() {
+                                var confirmation = confirm("Are you sure you want to cancel this event?");
+                                if (confirmation) {
+                                    document.getElementById("cancelEventForm").submit();
+                                }
+                            }
+                        </script>
                     <?php endif;
                 }
             ?>
