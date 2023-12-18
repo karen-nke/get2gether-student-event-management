@@ -12,6 +12,7 @@ ini_set('display_errors', 1);
 
 require_once('Part/db_controller.php');
 require_once('Part/navbar.php');
+require_once('logic_controller.php');
 
 if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
     $username = $_SESSION['username'];
@@ -48,16 +49,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $userRole = mysqli_fetch_assoc($roleResult)['role'];
 
             // Allow event creation only for "PIC" or "committee"
-            if ($userRole == "PIC" || $userRole == "committee") {
+            if ($userRole == "pic" || $userRole == "committee") {
                 // Insert data into the database
                 $sql = "INSERT INTO events (club_id, event_title, event_venue, start_time, end_time, start_date, end_date, event_image_path, event_description, user_id)
                         VALUES ('$clubId', '$eventTitle', '$eventVenue', '$startTime', '$endTime', '$startDate', '$endDate', '$uploadFile', '$eventDescription', '$user_id')";
 
                 if ($conn->query($sql) === TRUE) {
-                    echo "Event created successfully";
 
-                    // Rest of the email sending code...
+                    $club = fetchClubDetails($clubId, $conn);
+                    $clubName = $club['club_name'];
 
+                    $notificationMessage = "New Event Created: '$eventTitle' has been created in '$clubName'";
+                    $notificationInsertSql = "INSERT INTO notifications (user_id, message) SELECT id, CONCAT('New Event Created: ', '$eventTitle', ' has been created in ', '$clubName') FROM users WHERE id != $user_id";
+                    
+                    mysqli_query($conn, $notificationInsertSql);
+
+
+                    echo "<script>
+                        alert('Event created successfully');
+                        window.location.href = 'index.php';
+                    </script>";
+                                    
                 } else {
                     echo "Error: " . $sql . "<br>" . $conn->error;
                 }
