@@ -132,7 +132,7 @@ INSERT INTO `events` (`id`, `event_title`, `event_venue`, `start_time`, `end_tim
 (14, 'Sports Fest 2024', 'Sports Complex', '14:00:00', '16:00:00', '2024-01-04', '2024-01-04', 'Image/Event1.png', 'An exciting day of sports competitions and games.', 3, 3),
 (15, 'Fitness Challenge Day', 'Gymnasium', '17:00:00', '19:00:00', '2024-01-05', '2024-01-05', 'Image/Event2.png', 'Join us for a day of fitness challenges and workouts.', 5, 5),
 (16, 'Soccer Tournament', 'Soccer Field', '20:00:00', '22:00:00', '2024-01-06', '2024-01-06', 'Image/Event3.png', 'Compete in our annual soccer tournament.', 3, 3),
-(17, 'Tech Symposium 2023', 'Conference Center, Innovation Hub', '09:00:00', '17:00:00', '2024-12-21', '2024-12-21', 'Image/Event2.png', 'Explore the latest trends and innovations in technology.', 1, 7);
+(17, 'Tech Symposium 2024', 'Conference Center, Innovation Hub', '09:00:00', '17:00:00', '2024-12-21', '2024-12-21', 'Image/Event2.png', 'Explore the latest trends and innovations in technology.', 1, 7);
 
 
 
