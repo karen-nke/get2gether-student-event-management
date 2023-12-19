@@ -26,7 +26,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
             $eventStartDate = strtotime($event['start_date']);
 
             // Check if the current date is one day before the event's start date
-            if (strtotime('tomorrow') === $eventStartDate - 86400 * 2) {
+            if (date('Y-m-d', strtotime('tomorrow')) >= date('Y-m-d', $eventStartDate)) {
                 $club = fetchClubDetails($clubId, $conn);
 
                 if ($club) {
