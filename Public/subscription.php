@@ -42,10 +42,13 @@ $upcomingEventsByClub = getUpcomingEventsByClub($user_id, $conn);
 <body>
 
     <div class="page-container">
-        <div class="single-container">
+        <div class="image-container">
+            <img src="Image/Logo_Banner.png" class="image-banner" alt="Communication Badge">
+        </div>
+        <div class="section-container">
          
 
-        <h2 class="field-name">Upcoming Events</h2>
+        <p class="title">Upcoming Events</p>
         <!-- Display upcoming events by club -->
         <?php
         if (!empty($upcomingEventsByClub)) { ?>
