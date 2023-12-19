@@ -179,6 +179,24 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
                                 }
                             }
                          </script>
+
+                            <form id="remindParticipantsForm" method="post" action="remind_participants.php" style="all: initial;">
+                                <input type="hidden" name="event_id" value="<?php echo $event_id; ?>">
+                                <input type="submit" name="remind_participants" class="btn" value="Remind Participants" onclick="return confirmRemind()">
+                            </form>
+
+                            <script>
+                                function confirmRemind() {
+                                    var confirmation = confirm("Are you sure you want to send a reminder to participants for this event?");
+                                    if (confirmation == true) {
+                                        document.getElementById("remindParticipantsForm").submit();
+                                    } else {
+                                        window.location.href = window.location.href;
+                                        event.preventDefault();
+                                    }
+                                }
+                            </script>
+
                     <?php endif;
                 }
             ?>
