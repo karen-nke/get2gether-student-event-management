@@ -110,16 +110,19 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
                        
                         <form id="cancelEventForm" method="post" action="cancel_event.php" style="all: initial;">
                             <input type="hidden" name="event_id" value="<?php echo $event_id; ?>">
-                            <button type="submit" name="cancel_event" class="btn" onclick="confirmCancellation()">Cancel Event</button>
+                            <input type="submit" name="cancel_event" class="btn" value="Cancel Event" onclick="return confirmCancellation(event)">
                         </form>
 
                         <script>
-                            function confirmCancellation() {
-                                var confirmation = confirm("Are you sure you want to cancel this event?");
-                                if (confirmation) {
-                                    document.getElementById("cancelEventForm").submit();
-                                }
+                           function confirmCancellation(event) {
+                            var confirmation = confirm("Are you sure you want to cancel this event?");
+                            if (confirmation == true) {
+                                document.getElementById("cancelEventForm").submit();
+                            } else {
+                                window.location.href = window.location.href;
+                                event.preventDefault(); 
                             }
+                        }
                         </script>
                     <?php endif;
                 }
