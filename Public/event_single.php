@@ -128,6 +128,8 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
                 }
             ?>
 
+           
+
             <?php
                 if ($user_id !== null && hasPermissionToViewParticipants($user_id, $eventDetails['club_id'])) {
                     $event_id = $eventDetails['id'];
@@ -151,11 +153,36 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
                         echo '</ul>';
                         echo '</div>';
                     } else {
-                        echo '<p>No registered participants for this event.</p>';
+                        echo '<p class ="field-name">No registered participants for this event.</p>';
                     }
                 }
         
             ?>
+
+            <?php 
+                if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
+                    if ($userRole === 'pic' || $userRole === 'committee'): ?>
+                      
+                      <form id="boostEventForm" method="post" action="boost_event.php" style="all: initial;">
+                            <input type="hidden" name="event_id" value="<?php echo $event_id; ?>">
+                            <input type="submit" name="boost_event" class="btn" value="Boost Event" onclick="return confirmBoost()">
+                        </form>
+
+                        <script>
+                            function confirmBoost() {
+                                var confirmation = confirm("Are you sure you want to boost this event to All Users?");
+                                if (confirmation == true) {
+                                    document.getElementById("boostEventForm").submit();
+                                } else {
+                                    window.location.href = window.location.href;
+                                    event.preventDefault();
+                                }
+                            }
+                         </script>
+                    <?php endif;
+                }
+            ?>
+
         </div> 
 
         <?php
