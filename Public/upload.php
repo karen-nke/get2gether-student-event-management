@@ -55,37 +55,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 $stmt->bind_param("issssssssi", $clubId, $eventTitle, $eventVenue, $startTime, $endTime, $startDate, $endDate, $uploadFile, $eventDescription, $user_id);
 
-        if ($stmt->execute()) {
-            // Get the last inserted event ID
-            $event_id = $stmt->insert_id;
-            $registrationUrl = 'event_single.php?id=' . $event_id;
+                if ($stmt->execute()) {
+                    // Get the last inserted event ID
+                    $event_id = $stmt->insert_id;
+                    $registrationUrl = 'event_single.php?id=' . $event_id;
 
                     $club = fetchClubDetails($clubId, $conn);
                     $clubName = $club['club_name'];
 
-                    $event_id = $stmt->insert_id;
-                    $registrationUrl = 'event_single.php?id=' . $event_id; 
-                
                     $notificationMessage = "New Event Created: '$eventTitle' has been created in '$clubName' <a href='$registrationUrl'>View Now</a>!";
                     $notificationInsertSql = "INSERT INTO notifications (user_id, message) SELECT id, CONCAT('New Event Created: ', '$eventTitle', ' has been created in ', '$clubName', ' <a href=\"', '$registrationUrl', '\">View Now</a>!') FROM users WHERE id != $user_id";
-                    
-                    mysqli_query($conn, $notificationInsertSql);
 
+                    mysqli_query($conn, $notificationInsertSql);
 
                     echo "<script>
                         alert('Event created successfully');
                         window.location.href = 'index.php';
                     </script>";
-                                    
                 } else {
-                    echo "Error: " . $sql . "<br>" . $conn->error;
+                    echo "Error: " . $stmt->error;
                 }
             } else {
-                "<script>
-                        alert('You don't have the necessary permissions to create events for this club.');
+                echo "<script>
+                        alert('You don\'t have the necessary permissions to create events for this club.');
                         window.location.href = 'index.php';
                     </script>";
-                                
             }
         } else {
             echo "Error fetching user role from the database.";
@@ -94,6 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error uploading the file.";
     }
 
+    // Send email notification
     try {
         $mail = new PHPMailer(true);
 
@@ -107,12 +102,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $mail->setFrom('get2gethersunway@gmail.com');
 
-        // $mail->addAddress($_POST["email"]);
+        // Fetch email addresses from the users table
         $emailSql = "SELECT email FROM users";
         $emailResult = mysqli_query($conn, $emailSql);
 
-        if ($stmt->execute()) {
-            echo "Event created successfully";
+        if ($emailResult) {
+            while ($row = mysqli_fetch_assoc($emailResult)) {
+                // Add each email address to the recipient list
+                $mail->addAddress($row['email']);
+            }
+
+            $mail->isHTML(true);
 
             // Fetch additional information from the events table
             $eventInfoSql = "SELECT start_time, end_time, start_date, end_date, event_image_path, event_description FROM events WHERE event_title = '$eventTitle'";
@@ -122,34 +122,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $eventInfo = mysqli_fetch_assoc($eventInfoResult);
 
                 // Include additional information in the email body
-                // $mail->Body .= "<br><img src='" . $eventInfo['event_image_path'] . "' alt='Event Image'>";
-                $mail->Body .= "<br><img src='cid:event_image' alt='Event Image'>";
+                $mail->Body .= "<br><img src='" . $eventInfo['event_image_path'] . "' alt='Event Image'>";
                 $mail->Body .= "<br>Event Description: " . $eventInfo['event_description'];
                 $mail->Body .= "<br>Start Time: " . $eventInfo['start_time'];
                 $mail->Body .= "<br>End Time: " . $eventInfo['end_time'];
                 $mail->Body .= "<br>Start Date: " . $eventInfo['start_date'];
                 $mail->Body .= "<br>End Date: " . $eventInfo['end_date'];
 
-
                 $mail->AddEmbeddedImage($eventInfo['event_image_path'], 'event_image', 'event_image.png');
             } else {
                 echo "Error fetching event information from the database.";
             }
-
-            // Fetch email addresses from the users table
-            $emailSql = "SELECT email FROM users";
-            $emailResult = mysqli_query($conn, $emailSql);
-
-            if ($emailResult) {
-                while ($row = mysqli_fetch_assoc($emailResult)) {
-                    // Add each email address to the recipient list
-                    $mail->addAddress($row['email']);
-                }
-            } else {
-                echo "Error fetching emails from the database.";
-            }
-
-            $mail->isHTML(true);
 
             $mail->Subject = "New Event: " . $eventTitle;
 
@@ -162,10 +145,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </script>
             ";
         } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            echo "Error fetching emails from the database.";
         }
-
-
     } catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
