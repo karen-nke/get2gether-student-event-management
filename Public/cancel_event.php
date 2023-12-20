@@ -12,7 +12,6 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
     $username = $_SESSION['username'];
     $user_id = $_SESSION['user_id'];
 
-
     if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['cancel_event'])) {
         require_once('Part/db_controller.php'); 
 
@@ -25,33 +24,40 @@ if (isset($_SESSION['username']) && isset($_SESSION['user_id'])) {
             $eventTitle = $event['event_title'];
             $clubId = $event['club_id'];
 
-            // Delete the event from the database
-            $sql = "DELETE FROM events WHERE id = $event_id";
+            // Delete registrations for the event from the event_registrations table
+            $deleteRegistrationsSql = "DELETE FROM event_registrations WHERE event_id = $event_id";
 
-            if ($conn->query($sql) === TRUE) {
-                // Fetch club details for notification
-                $club = fetchClubDetails($clubId, $conn);
+            if ($conn->query($deleteRegistrationsSql) === TRUE) {
+                
+                $deleteEventSql = "DELETE FROM events WHERE id = $event_id";
 
-                if ($club) {
-                    $clubName = $club['club_name'];
+                if ($conn->query($deleteEventSql) === TRUE) {
+                    // Fetch club details for notification
+                    $club = fetchClubDetails($clubId, $conn);
 
-                    // Create notification message
-                    $notificationMessage = "Event: '$eventTitle' has been cancelled by '$clubName'";
-                    $notificationInsertSql = "INSERT INTO notifications (user_id, message, is_read) SELECT id, CONCAT('Event: ', '$eventTitle', ' has been cancelled by ', '$clubName'), 0 FROM users WHERE id != $user_id";
+                    if ($club) {
+                        $clubName = $club['club_name'];
 
-                    // Insert notification into the database
-                    mysqli_query($conn, $notificationInsertSql);
+                        // Create notification message
+                        $notificationMessage = "Event: '$eventTitle' has been cancelled by '$clubName'";
+                        $notificationInsertSql = "INSERT INTO notifications (user_id, message, is_read) SELECT id, CONCAT('Event: ', '$eventTitle', ' has been cancelled by ', '$clubName'), 0 FROM users WHERE id != $user_id";
 
-                    // Display confirmation alert
-                    echo "<script>
-                            alert('Cancelled Confirmed');
-                            window.location.href = 'index.php';
-                        </script>";
+                        // Insert notification into the database
+                        mysqli_query($conn, $notificationInsertSql);
+
+                        // Display confirmation alert
+                        echo "<script>
+                                alert('Cancelled Confirmed');
+                                window.location.href = 'index.php';
+                            </script>";
+                    } else {
+                        echo "Error fetching club details: Club not found.";
+                    }
                 } else {
-                    echo "Error fetching club details: Club not found.";
+                    echo "Error canceling event: " . $conn->error;
                 }
             } else {
-                echo "Error canceling event: " . $conn->error;
+                echo "Error deleting event registrations: " . $conn->error;
             }
         } else {
             echo "Error fetching event details: Event not found.";
