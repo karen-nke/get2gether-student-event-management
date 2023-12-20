@@ -81,7 +81,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     echo "Error: " . $sql . "<br>" . $conn->error;
                 }
             } else {
-                echo "You don't have the necessary permissions to create events for this club.";
+                "<script>
+                        alert('You don't have the necessary permissions to create events for this club.');
+                        window.location.href = 'index.php';
+                    </script>";
+                                
             }
         } else {
             echo "Error fetching user role from the database.";
@@ -107,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $emailSql = "SELECT email FROM users";
         $emailResult = mysqli_query($conn, $emailSql);
 
-        if ($conn->query($sql) === TRUE) {
+        if ($stmt->execute()) {
             echo "Event created successfully";
 
             // Fetch additional information from the events table
