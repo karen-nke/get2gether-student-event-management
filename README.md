@@ -35,4 +35,6 @@ Open your web browser and go to ` http://localhost/your-folder`
 - CSS 
 - PHP
 
+_Coursework for SWE3024 Code Camp (September 2023 - December 2023)_
+
 
